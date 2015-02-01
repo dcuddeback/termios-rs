@@ -3,3 +3,7 @@
 name = "termios"
 version = "0.0.1"
 authors = ["David Cuddeback <david.cuddeback@gmail.com>"]
+description = "Safe bindings for the termios library."
+license = "MIT"
+homepage = "https://github.com/dcuddeback/termios-rs"
+repository = "https://github.com/dcuddeback/termios-rs.git"
