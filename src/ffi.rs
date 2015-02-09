@@ -1,4 +1,3 @@
-#[allow(unstable)]
 extern crate libc;
 use self::libc::{c_void,c_int};
 
@@ -23,10 +22,7 @@ extern "C" {
 
 #[cfg(target_os = "linux")]
 mod os {
-  #[allow(unstable)]
-  extern crate libc;
-
-  use self::libc::{c_int,c_uint,c_uchar};
+  use super::libc::{c_int,c_uint,c_uchar};
 
   #[allow(non_camel_case_types)]
   pub type cc_t = c_uchar;
@@ -37,7 +33,7 @@ mod os {
   #[allow(non_camel_case_types)]
   pub type tcflag_t = c_uint;
 
-  #[derive(Show,Copy)]
+  #[derive(Debug,Copy,Eq,PartialEq)]
   #[repr(C)]
   pub struct Termios {
     pub c_iflag: tcflag_t,
@@ -212,10 +208,7 @@ mod os {
 
 #[cfg(target_os = "macos")]
 mod os {
-  #[allow(unstable)]
-  extern crate libc;
-
-  use self::libc::{c_int,c_uchar,c_ulong};
+  use super::libc::{c_int,c_uchar,c_ulong};
 
   #[allow(non_camel_case_types)]
   pub type tcflag_t = c_ulong;
@@ -226,7 +219,7 @@ mod os {
   #[allow(non_camel_case_types)]
   pub type speed_t = c_ulong;
 
-  #[derive(Show,Copy)]
+  #[derive(Show,Copy,Eq,PartialEq)]
   #[repr(C)]
   pub struct Termios {
     pub c_iflag: tcflag_t,

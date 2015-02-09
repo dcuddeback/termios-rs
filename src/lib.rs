@@ -1,8 +1,7 @@
-#[allow(unstable)]
 extern crate libc;
 
 use self::libc::{c_int};
-use std::io::{IoError,IoResult};
+use std::old_io::{IoError,IoResult};
 use std::mem;
 use std::default::Default;
 
@@ -93,7 +92,6 @@ pub fn cfsetspeed(termios: &mut Termios, speed: speed_t) -> IoResult<()> {
 
 
 #[inline]
-#[allow(unstable)]
 fn io_result(result: c_int) -> IoResult<()> {
   match result {
     0 => Ok(()),
