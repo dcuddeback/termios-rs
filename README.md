@@ -22,14 +22,16 @@ Add `termios` as a dependency in `Cargo.toml`:
 termios = "0.0.1"
 ```
 
-Import the `termios` crate and any symbols needed from `termios`.
-You will also probably need `libc::c_int` for file descriptors and `std::io::IoResult` to propagate errors.
+Import the `termios` crate and any symbols needed from `termios`. You will also probably need
+`libc::c_int` for file descriptors and `std::old_io::IoResult` to propagate errors.
 
 ```rust
+#![feature(libc,io)]
+
 extern crate termios;
 extern crate libc;
 
-use std::io::IoResult;
+use std::old_io::IoResult;
 use libc::c_int;
 use termios::*;
 
