@@ -52,4 +52,4 @@ fn setup_fd(fd: c_int) -> IoResult<()> {
 ## License
 Copyright © 2015 David Cuddeback
 
-Distributed under the [MIT](LICENSE).
+Distributed under the [MIT License](LICENSE).
