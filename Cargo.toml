@@ -7,3 +7,5 @@ description = "Safe bindings for the termios library."
 license = "MIT"
 homepage = "https://github.com/dcuddeback/termios-rs"
 repository = "https://github.com/dcuddeback/termios-rs.git"
+readme = "README.md"
+keywords = ["termios", "tty", "terminal", "posix"]
