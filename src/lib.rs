@@ -1,11 +1,12 @@
-#![feature(libc,io,old_io)]
+#![feature(libc)]
 
 extern crate libc;
 
-use self::libc::{c_int};
-use std::old_io::{IoError,IoResult};
+use std::io;
 use std::mem;
 use std::default::Default;
+
+use libc::{c_int};
 
 pub use ffi::{cc_t,speed_t,tcflag_t}; // types
 pub use ffi::{VEOF,VEOL,VERASE,VINTR,VKILL,VMIN,VQUIT,VSTART,VSTOP,VSUSP,VTIME}; // c_cc subscripts
@@ -27,7 +28,7 @@ impl Termios {
     unsafe { mem::zeroed() }
   }
 
-  pub fn from_fd(fd: c_int) -> IoResult<Termios> {
+  pub fn from_fd(fd: c_int) -> io::Result<Termios> {
     let mut termios = Termios::zeroed();
 
     match tcgetattr(fd, &mut termios) {
@@ -44,27 +45,27 @@ impl Default for Termios {
 }
 
 
-pub fn tcgetattr(fd: c_int, termios: &mut Termios) -> IoResult<()> {
+pub fn tcgetattr(fd: c_int, termios: &mut Termios) -> io::Result<()> {
   io_result(unsafe { ffi::tcgetattr(fd, termios) })
 }
 
-pub fn tcsetattr(fd: c_int, action: c_int, termios: &Termios) -> IoResult<()> {
+pub fn tcsetattr(fd: c_int, action: c_int, termios: &Termios) -> io::Result<()> {
   io_result(unsafe { ffi::tcsetattr(fd, action, termios) })
 }
 
-pub fn tcsendbreak(fd: c_int, duration: c_int) -> IoResult<()> {
+pub fn tcsendbreak(fd: c_int, duration: c_int) -> io::Result<()> {
   io_result(unsafe { ffi::tcsendbreak(fd, duration) })
 }
 
-pub fn tcdrain(fd: c_int) -> IoResult<()> {
+pub fn tcdrain(fd: c_int) -> io::Result<()> {
   io_result(unsafe { ffi::tcdrain(fd) })
 }
 
-pub fn tcflush(fd: c_int, queue_selector: c_int) -> IoResult<()> {
+pub fn tcflush(fd: c_int, queue_selector: c_int) -> io::Result<()> {
   io_result(unsafe { ffi::tcflush(fd, queue_selector) })
 }
 
-pub fn tcflow(fd: c_int, action: c_int) -> IoResult<()> {
+pub fn tcflow(fd: c_int, action: c_int) -> io::Result<()> {
   io_result(unsafe { ffi::tcflow(fd, action) })
 }
 
@@ -80,23 +81,23 @@ pub fn cfgetospeed(termios: &Termios) -> speed_t {
   unsafe { ffi::cfgetospeed(termios) }
 }
 
-pub fn cfsetispeed(termios: &mut Termios, speed: speed_t) -> IoResult<()> {
+pub fn cfsetispeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
   io_result(unsafe { ffi::cfsetispeed(termios, speed) })
 }
 
-pub fn cfsetospeed(termios: &mut Termios, speed: speed_t) -> IoResult<()> {
+pub fn cfsetospeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
   io_result(unsafe { ffi::cfsetospeed(termios, speed) })
 }
 
-pub fn cfsetspeed(termios: &mut Termios, speed: speed_t) -> IoResult<()> {
+pub fn cfsetspeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
   io_result(unsafe { ffi::cfsetspeed(termios, speed) })
 }
 
 
 #[inline]
-fn io_result(result: c_int) -> IoResult<()> {
+fn io_result(result: c_int) -> io::Result<()> {
   match result {
     0 => Ok(()),
-    _ => Err(IoError::last_error())
+    _ => Err(io::Error::last_os_error())
   }
 }

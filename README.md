@@ -23,19 +23,20 @@ termios = "0.0.2"
 ```
 
 Import the `termios` crate and any symbols needed from `termios`. You will also probably need
-`libc::c_int` for file descriptors and `std::old_io::IoResult` to propagate errors.
+`libc::c_int` for file descriptors and `std::io::Result` to propagate errors.
 
 ```rust
-#![feature(libc,io)]
+#![feature(libc)]
 
 extern crate termios;
 extern crate libc;
 
-use std::old_io::IoResult;
+use std::io;
+
 use libc::c_int;
 use termios::*;
 
-fn setup_fd(fd: c_int) -> IoResult<()> {
+fn setup_fd(fd: c_int) -> io::Result<()> {
   let mut tios = try!(Termios::from_fd(fd));
 
   tios.c_iflag = IGNPAR | IGNBRK;

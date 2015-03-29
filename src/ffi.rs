@@ -1,5 +1,6 @@
 extern crate libc;
-use self::libc::{c_void,c_int};
+
+use libc::{c_void,c_int};
 
 pub use self::os::*;
 
