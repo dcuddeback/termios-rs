@@ -219,7 +219,7 @@ mod os {
   #[allow(non_camel_case_types)]
   pub type speed_t = c_ulong;
 
-  #[derive(Show,Copy,Eq,PartialEq)]
+  #[derive(Debug,Copy,Eq,PartialEq)]
   #[repr(C)]
   pub struct Termios {
     pub c_iflag: tcflag_t,

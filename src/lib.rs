@@ -1,4 +1,4 @@
-#![feature(libc,io)]
+#![feature(libc,io,old_io)]
 
 extern crate libc;
 
