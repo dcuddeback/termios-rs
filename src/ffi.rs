@@ -34,7 +34,7 @@ mod os {
   #[allow(non_camel_case_types)]
   pub type tcflag_t = c_uint;
 
-  #[derive(Debug,Copy,Eq,PartialEq)]
+  #[derive(Debug,Copy,Clone,Eq,PartialEq)]
   #[repr(C)]
   pub struct Termios {
     pub c_iflag: tcflag_t,
@@ -220,7 +220,7 @@ mod os {
   #[allow(non_camel_case_types)]
   pub type speed_t = c_ulong;
 
-  #[derive(Debug,Copy,Eq,PartialEq)]
+  #[derive(Debug,Copy,Clone,Eq,PartialEq)]
   #[repr(C)]
   pub struct Termios {
     pub c_iflag: tcflag_t,
