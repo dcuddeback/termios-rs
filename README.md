@@ -46,6 +46,10 @@ fn setup_fd(fd: c_int) -> io::Result<()> {
 }
 ```
 
+## Contributors
+* [dcuddeback](https://github.com/dcuddeback/)
+* [conradkleinespel](https://github.com/conradkleinespel)
+
 ## License
 Copyright © 2015 David Cuddeback
 
