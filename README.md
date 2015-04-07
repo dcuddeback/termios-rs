@@ -2,17 +2,13 @@
 
 The `termios` crate provides safe bindings for the Rust programming language to the [terminal I/O
 interface](http://pubs.opengroup.org/onlinepubs/009695399/basedefs/termios.h.html) implemented by
-Unix operating systems.  The safe bindings are a small wrapper around the raw C functions, which
-converts integer return values to `std::io::IoResult` to indicate success or failure.  The raw C
+Unix operating systems. The safe bindings are a small wrapper around the raw C functions, which
+converts integer return values to `std::io::Result` to indicate success or failure. The raw C
 functions are available in the `termios::ffi` module, but must be called within an `unsafe` block.
 
 ## Dependencies
-In order to use the `termios` crate, you must have:
-
-* A Rust runtime with the `libc` crate. Since the `libc` crate's interface is considered unstable,
-  you must install Rust from the nightly builds or from the latest source.
-* A native `libc` library that implements the `termios` API. This should be available on any recent
-  version of OSX or Linux using `glibc`.
+In order to use the `termios` crate, you must have a native `libc` library that implements the
+`termios` API. This should be available on any recent version of OSX or Linux using `glibc`.
 
 ## Usage
 Add `termios` as a dependency in `Cargo.toml`:
