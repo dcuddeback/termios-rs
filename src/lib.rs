@@ -6,20 +6,21 @@ use std::default::Default;
 
 use libc::{c_int};
 
-pub use ffi::{cc_t,speed_t,tcflag_t}; // types
-pub use ffi::{VEOF,VEOL,VERASE,VINTR,VKILL,VMIN,VQUIT,VSTART,VSTOP,VSUSP,VTIME}; // c_cc subscripts
-pub use ffi::{BRKINT,ICRNL,IGNBRK,IGNCR,IGNPAR,INLCR,INPCK,ISTRIP,IXANY,IXOFF,IXON,PARMRK}; // input modes
-pub use ffi::{OPOST,ONLCR,OCRNL,ONOCR,ONLRET,OFILL,NLDLY,NL0,NL1,CRDLY,CR0,CR1,CR2,CR3,TABDLY,TAB0,TAB1,TAB2,TAB3,BSDLY,BS0,BS1,VTDLY,VT0,VT1,FFDLY,FF0,FF1}; // output modes
-pub use ffi::{B0,B50,B75,B110,B134,B150,B200,B300,B600,B1200,B1800,B2400,B4800,B9600,B19200,B38400}; // baud rate selection
-pub use ffi::{CSIZE,CS5,CS6,CS7,CS8,CSTOPB,CREAD,PARENB,PARODD,HUPCL,CLOCAL}; // control modes
-pub use ffi::{ECHO,ECHOE,ECHOK,ECHONL,ICANON,IEXTEN,ISIG,NOFLSH,TOSTOP}; // local modes
-pub use ffi::{TCSANOW,TCSADRAIN,TCSAFLUSH}; // attribute selection
-pub use ffi::{TCIFLUSH,TCIOFLUSH,TCOFLUSH,TCIOFF,TCION,TCOOFF,TCOON}; // line control
+pub use os::{cc_t,speed_t,tcflag_t}; // types
+pub use os::{VEOF,VEOL,VERASE,VINTR,VKILL,VMIN,VQUIT,VSTART,VSTOP,VSUSP,VTIME}; // c_cc subscripts
+pub use os::{BRKINT,ICRNL,IGNBRK,IGNCR,IGNPAR,INLCR,INPCK,ISTRIP,IXANY,IXOFF,IXON,PARMRK}; // input modes
+pub use os::{OPOST,ONLCR,OCRNL,ONOCR,ONLRET,OFILL,NLDLY,NL0,NL1,CRDLY,CR0,CR1,CR2,CR3,TABDLY,TAB0,TAB1,TAB2,TAB3,BSDLY,BS0,BS1,VTDLY,VT0,VT1,FFDLY,FF0,FF1}; // output modes
+pub use os::{B0,B50,B75,B110,B134,B150,B200,B300,B600,B1200,B1800,B2400,B4800,B9600,B19200,B38400}; // baud rate selection
+pub use os::{CSIZE,CS5,CS6,CS7,CS8,CSTOPB,CREAD,PARENB,PARODD,HUPCL,CLOCAL}; // control modes
+pub use os::{ECHO,ECHOE,ECHOK,ECHONL,ICANON,IEXTEN,ISIG,NOFLSH,TOSTOP}; // local modes
+pub use os::{TCSANOW,TCSADRAIN,TCSAFLUSH}; // attribute selection
+pub use os::{TCIFLUSH,TCIOFLUSH,TCOFLUSH,TCIOFF,TCION,TCOOFF,TCOON}; // line control
 
 pub mod ffi;
+pub mod os;
 
 
-pub type Termios = ffi::Termios;
+pub type Termios = os::termios;
 
 impl Termios {
   pub fn zeroed() -> Self {
