@@ -23,80 +23,80 @@ pub mod os;
 pub type Termios = os::termios;
 
 impl Termios {
-  pub fn zeroed() -> Self {
-    unsafe { mem::zeroed() }
-  }
-
-  pub fn from_fd(fd: c_int) -> io::Result<Termios> {
-    let mut termios = Termios::zeroed();
-
-    match tcgetattr(fd, &mut termios) {
-      Ok(_) => Ok(termios),
-      Err(err) => Err(err)
+    pub fn zeroed() -> Self {
+        unsafe { mem::zeroed() }
     }
-  }
+
+    pub fn from_fd(fd: c_int) -> io::Result<Termios> {
+        let mut termios = Termios::zeroed();
+
+        match tcgetattr(fd, &mut termios) {
+            Ok(_) => Ok(termios),
+            Err(err) => Err(err)
+        }
+    }
 }
 
 impl Default for Termios {
-  fn default() -> Self {
-    Termios::zeroed()
-  }
+    fn default() -> Self {
+        Termios::zeroed()
+    }
 }
 
 
 pub fn tcgetattr(fd: c_int, termios: &mut Termios) -> io::Result<()> {
-  io_result(unsafe { ffi::tcgetattr(fd, termios) })
+    io_result(unsafe { ffi::tcgetattr(fd, termios) })
 }
 
 pub fn tcsetattr(fd: c_int, action: c_int, termios: &Termios) -> io::Result<()> {
-  io_result(unsafe { ffi::tcsetattr(fd, action, termios) })
+    io_result(unsafe { ffi::tcsetattr(fd, action, termios) })
 }
 
 pub fn tcsendbreak(fd: c_int, duration: c_int) -> io::Result<()> {
-  io_result(unsafe { ffi::tcsendbreak(fd, duration) })
+    io_result(unsafe { ffi::tcsendbreak(fd, duration) })
 }
 
 pub fn tcdrain(fd: c_int) -> io::Result<()> {
-  io_result(unsafe { ffi::tcdrain(fd) })
+    io_result(unsafe { ffi::tcdrain(fd) })
 }
 
 pub fn tcflush(fd: c_int, queue_selector: c_int) -> io::Result<()> {
-  io_result(unsafe { ffi::tcflush(fd, queue_selector) })
+    io_result(unsafe { ffi::tcflush(fd, queue_selector) })
 }
 
 pub fn tcflow(fd: c_int, action: c_int) -> io::Result<()> {
-  io_result(unsafe { ffi::tcflow(fd, action) })
+    io_result(unsafe { ffi::tcflow(fd, action) })
 }
 
 pub fn cfmakeraw(termios: &mut Termios) {
-  unsafe { ffi::cfmakeraw(termios) };
+    unsafe { ffi::cfmakeraw(termios) };
 }
 
 pub fn cfgetispeed(termios: &Termios) -> speed_t {
-  unsafe { ffi::cfgetispeed(termios) }
+    unsafe { ffi::cfgetispeed(termios) }
 }
 
 pub fn cfgetospeed(termios: &Termios) -> speed_t {
-  unsafe { ffi::cfgetospeed(termios) }
+    unsafe { ffi::cfgetospeed(termios) }
 }
 
 pub fn cfsetispeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
-  io_result(unsafe { ffi::cfsetispeed(termios, speed) })
+    io_result(unsafe { ffi::cfsetispeed(termios, speed) })
 }
 
 pub fn cfsetospeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
-  io_result(unsafe { ffi::cfsetospeed(termios, speed) })
+    io_result(unsafe { ffi::cfsetospeed(termios, speed) })
 }
 
 pub fn cfsetspeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
-  io_result(unsafe { ffi::cfsetspeed(termios, speed) })
+    io_result(unsafe { ffi::cfsetspeed(termios, speed) })
 }
 
 
 #[inline]
 fn io_result(result: c_int) -> io::Result<()> {
-  match result {
-    0 => Ok(()),
-    _ => Err(io::Error::last_os_error())
-  }
+    match result {
+        0 => Ok(()),
+        _ => Err(io::Error::last_os_error())
+    }
 }
