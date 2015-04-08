@@ -3,6 +3,7 @@ extern crate libc;
 use std::io;
 use std::mem;
 use std::default::Default;
+use std::os::unix::io::RawFd;
 
 use libc::{c_int};
 
@@ -27,7 +28,7 @@ impl Termios {
         unsafe { mem::zeroed() }
     }
 
-    pub fn from_fd(fd: c_int) -> io::Result<Termios> {
+    pub fn from_fd(fd: RawFd) -> io::Result<Termios> {
         let mut termios = Termios::zeroed();
 
         match tcgetattr(fd, &mut termios) {
@@ -44,27 +45,27 @@ impl Default for Termios {
 }
 
 
-pub fn tcgetattr(fd: c_int, termios: &mut Termios) -> io::Result<()> {
+pub fn tcgetattr(fd: RawFd, termios: &mut Termios) -> io::Result<()> {
     io_result(unsafe { ffi::tcgetattr(fd, termios) })
 }
 
-pub fn tcsetattr(fd: c_int, action: c_int, termios: &Termios) -> io::Result<()> {
+pub fn tcsetattr(fd: RawFd, action: c_int, termios: &Termios) -> io::Result<()> {
     io_result(unsafe { ffi::tcsetattr(fd, action, termios) })
 }
 
-pub fn tcsendbreak(fd: c_int, duration: c_int) -> io::Result<()> {
+pub fn tcsendbreak(fd: RawFd, duration: c_int) -> io::Result<()> {
     io_result(unsafe { ffi::tcsendbreak(fd, duration) })
 }
 
-pub fn tcdrain(fd: c_int) -> io::Result<()> {
+pub fn tcdrain(fd: RawFd) -> io::Result<()> {
     io_result(unsafe { ffi::tcdrain(fd) })
 }
 
-pub fn tcflush(fd: c_int, queue_selector: c_int) -> io::Result<()> {
+pub fn tcflush(fd: RawFd, queue_selector: c_int) -> io::Result<()> {
     io_result(unsafe { ffi::tcflush(fd, queue_selector) })
 }
 
-pub fn tcflow(fd: c_int, action: c_int) -> io::Result<()> {
+pub fn tcflow(fd: RawFd, action: c_int) -> io::Result<()> {
     io_result(unsafe { ffi::tcflow(fd, action) })
 }
 
