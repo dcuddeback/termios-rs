@@ -5,7 +5,7 @@ use std::mem;
 use std::default::Default;
 use std::os::unix::io::RawFd;
 
-use libc::{c_int};
+use libc::{c_int,pid_t};
 
 pub use os::{cc_t,speed_t,tcflag_t}; // types
 pub use os::{VEOF,VEOL,VERASE,VINTR,VKILL,VMIN,VQUIT,VSTART,VSTOP,VSUSP,VTIME}; // c_cc subscripts
@@ -45,34 +45,6 @@ impl Default for Termios {
 }
 
 
-pub fn tcgetattr(fd: RawFd, termios: &mut Termios) -> io::Result<()> {
-    io_result(unsafe { ffi::tcgetattr(fd, termios) })
-}
-
-pub fn tcsetattr(fd: RawFd, action: c_int, termios: &Termios) -> io::Result<()> {
-    io_result(unsafe { ffi::tcsetattr(fd, action, termios) })
-}
-
-pub fn tcsendbreak(fd: RawFd, duration: c_int) -> io::Result<()> {
-    io_result(unsafe { ffi::tcsendbreak(fd, duration) })
-}
-
-pub fn tcdrain(fd: RawFd) -> io::Result<()> {
-    io_result(unsafe { ffi::tcdrain(fd) })
-}
-
-pub fn tcflush(fd: RawFd, queue_selector: c_int) -> io::Result<()> {
-    io_result(unsafe { ffi::tcflush(fd, queue_selector) })
-}
-
-pub fn tcflow(fd: RawFd, action: c_int) -> io::Result<()> {
-    io_result(unsafe { ffi::tcflow(fd, action) })
-}
-
-pub fn cfmakeraw(termios: &mut Termios) {
-    unsafe { ffi::cfmakeraw(termios) };
-}
-
 pub fn cfgetispeed(termios: &Termios) -> speed_t {
     unsafe { ffi::cfgetispeed(termios) }
 }
@@ -91,6 +63,38 @@ pub fn cfsetospeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
 
 pub fn cfsetspeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
     io_result(unsafe { ffi::cfsetspeed(termios, speed) })
+}
+
+pub fn cfmakeraw(termios: &mut Termios) {
+    unsafe { ffi::cfmakeraw(termios) };
+}
+
+pub fn tcdrain(fd: RawFd) -> io::Result<()> {
+    io_result(unsafe { ffi::tcdrain(fd) })
+}
+
+pub fn tcflow(fd: RawFd, action: c_int) -> io::Result<()> {
+    io_result(unsafe { ffi::tcflow(fd, action) })
+}
+
+pub fn tcflush(fd: RawFd, queue_selector: c_int) -> io::Result<()> {
+    io_result(unsafe { ffi::tcflush(fd, queue_selector) })
+}
+
+pub fn tcgetattr(fd: RawFd, termios: &mut Termios) -> io::Result<()> {
+    io_result(unsafe { ffi::tcgetattr(fd, termios) })
+}
+
+pub fn tcsetattr(fd: RawFd, action: c_int, termios: &Termios) -> io::Result<()> {
+    io_result(unsafe { ffi::tcsetattr(fd, action, termios) })
+}
+
+pub fn tcgetsid(fd: RawFd) -> pid_t {
+    unsafe { ffi::tcgetsid(fd) }
+}
+
+pub fn tcsendbreak(fd: RawFd, duration: c_int) -> io::Result<()> {
+    io_result(unsafe { ffi::tcsendbreak(fd, duration) })
 }
 
 

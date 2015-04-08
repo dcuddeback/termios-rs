@@ -1,6 +1,6 @@
 extern crate libc;
 
-use libc::c_int;
+use libc::{c_int,pid_t};
 
 use super::os::*;
 
@@ -18,4 +18,5 @@ extern "C" {
     pub fn cfsetispeed(termios_p: *mut termios, speed: speed_t) -> c_int;
     pub fn cfsetospeed(termios_p: *mut termios, speed: speed_t) -> c_int;
     pub fn cfsetspeed(termios_p: *mut termios, speed: speed_t) -> c_int;
+    pub fn tcgetsid(fd: c_int) -> pid_t;
 }
