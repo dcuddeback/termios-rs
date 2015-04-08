@@ -6,7 +6,6 @@ extern crate libc;
 
 use std::io;
 use std::mem;
-use std::default::Default;
 use std::os::unix::io::RawFd;
 
 use libc::{c_int,pid_t};
@@ -28,25 +27,14 @@ pub mod os;
 pub type Termios = os::termios;
 
 impl Termios {
-    /// Creates a `Termios` structure with its memory zeroed.
-    pub fn zeroed() -> Self {
-        unsafe { mem::zeroed() }
-    }
-
     /// Creates a `Termios` structure based on the current settings of a file descriptor.
     pub fn from_fd(fd: RawFd) -> io::Result<Termios> {
-        let mut termios = Termios::zeroed();
+        let mut termios = unsafe { mem::uninitialized() };
 
         match tcgetattr(fd, &mut termios) {
             Ok(_) => Ok(termios),
             Err(err) => Err(err)
         }
-    }
-}
-
-impl Default for Termios {
-    fn default() -> Self {
-        Termios::zeroed()
     }
 }
 
@@ -56,10 +44,11 @@ impl Default for Termios {
 /// # Examples
 ///
 /// ```
+/// # use std::mem;
 /// # use termios::{Termios,B9600,cfsetispeed,cfgetispeed};
-/// let mut tios = Termios::zeroed();
-/// cfsetispeed(&mut tios, B9600).unwrap();
-/// assert_eq!(cfgetispeed(&tios), B9600);
+/// # let mut termios = unsafe { mem::uninitialized() };
+/// cfsetispeed(&mut termios, B9600).unwrap();
+/// assert_eq!(cfgetispeed(&termios), B9600);
 /// ```
 pub fn cfgetispeed(termios: &Termios) -> speed_t {
     unsafe { ffi::cfgetispeed(termios) }
@@ -70,10 +59,11 @@ pub fn cfgetispeed(termios: &Termios) -> speed_t {
 /// # Examples
 ///
 /// ```
+/// # use std::mem;
 /// # use termios::{Termios,B9600,cfsetospeed,cfgetospeed};
-/// let mut tios = Termios::zeroed();
-/// cfsetospeed(&mut tios, B9600).unwrap();
-/// assert_eq!(cfgetospeed(&tios), B9600);
+/// # let mut termios = unsafe { mem::uninitialized() };
+/// cfsetospeed(&mut termios, B9600).unwrap();
+/// assert_eq!(cfgetospeed(&termios), B9600);
 /// ```
 pub fn cfgetospeed(termios: &Termios) -> speed_t {
     unsafe { ffi::cfgetospeed(termios) }
@@ -111,10 +101,11 @@ pub fn cfgetospeed(termios: &Termios) -> speed_t {
 /// # Examples
 ///
 /// ```
+/// # use std::mem;
 /// # use termios::{Termios,B9600,cfsetispeed,cfgetispeed};
-/// let mut tios = Termios::zeroed();
-/// cfsetispeed(&mut tios, B9600).unwrap();
-/// assert_eq!(cfgetispeed(&tios), B9600);
+/// # let mut termios = unsafe { mem::uninitialized() };
+/// cfsetispeed(&mut termios, B9600).unwrap();
+/// assert_eq!(cfgetispeed(&termios), B9600);
 /// ```
 pub fn cfsetispeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
     io_result(unsafe { ffi::cfsetispeed(termios, speed) })
@@ -153,10 +144,11 @@ pub fn cfsetispeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
 /// # Examples
 ///
 /// ```
+/// # use std::mem;
 /// # use termios::{Termios,B9600,cfsetospeed,cfgetospeed};
-/// let mut tios = Termios::zeroed();
-/// cfsetospeed(&mut tios, B9600).unwrap();
-/// assert_eq!(cfgetospeed(&tios), B9600);
+/// # let mut termios = unsafe { mem::uninitialized() };
+/// cfsetospeed(&mut termios, B9600).unwrap();
+/// assert_eq!(cfgetospeed(&termios), B9600);
 /// ```
 pub fn cfsetospeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
     io_result(unsafe { ffi::cfsetospeed(termios, speed) })
@@ -192,11 +184,12 @@ pub fn cfsetospeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
 /// # Examples
 ///
 /// ```
+/// # use std::mem;
 /// # use termios::{Termios,B9600,cfsetspeed,cfgetispeed,cfgetospeed};
-/// let mut tios = Termios::zeroed();
-/// cfsetspeed(&mut tios, B9600).unwrap();
-/// assert_eq!(cfgetispeed(&tios), B9600);
-/// assert_eq!(cfgetospeed(&tios), B9600);
+/// # let mut termios = unsafe { mem::uninitialized() };
+/// cfsetspeed(&mut termios, B9600).unwrap();
+/// assert_eq!(cfgetispeed(&termios), B9600);
+/// assert_eq!(cfgetospeed(&termios), B9600);
 /// ```
 ///
 /// # Portability
