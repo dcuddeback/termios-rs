@@ -6,6 +6,7 @@ extern crate libc;
 
 use std::io;
 use std::mem;
+use std::ops::{Deref,DerefMut};
 use std::os::unix::io::RawFd;
 
 use libc::{c_int,pid_t};
@@ -24,17 +25,42 @@ pub mod ffi;
 pub mod os;
 
 
-pub type Termios = os::termios;
+#[derive(Debug,Copy,Clone,Eq,PartialEq)]
+pub struct Termios {
+    inner: os::termios
+}
 
 impl Termios {
     /// Creates a `Termios` structure based on the current settings of a file descriptor.
-    pub fn from_fd(fd: RawFd) -> io::Result<Termios> {
+    pub fn from_fd(fd: RawFd) -> io::Result<Self> {
         let mut termios = unsafe { mem::uninitialized() };
 
         match tcgetattr(fd, &mut termios) {
             Ok(_) => Ok(termios),
             Err(err) => Err(err)
         }
+    }
+
+    fn inner(&self) -> &os::termios {
+        &self.inner
+    }
+
+    fn inner_mut(&mut self) -> &mut os::termios {
+        &mut self.inner
+    }
+}
+
+impl Deref for Termios {
+    type Target = os::termios;
+
+    fn deref(&self) -> &os::termios {
+        self.inner()
+    }
+}
+
+impl DerefMut for Termios {
+    fn deref_mut(&mut self) -> &mut os::termios {
+        self.inner_mut()
     }
 }
 
@@ -51,7 +77,7 @@ impl Termios {
 /// assert_eq!(cfgetispeed(&termios), B9600);
 /// ```
 pub fn cfgetispeed(termios: &Termios) -> speed_t {
-    unsafe { ffi::cfgetispeed(termios) }
+    unsafe { ffi::cfgetispeed(termios.inner()) }
 }
 
 /// Gets the output baud rate stored in a `Termios` structure.
@@ -66,7 +92,7 @@ pub fn cfgetispeed(termios: &Termios) -> speed_t {
 /// assert_eq!(cfgetospeed(&termios), B9600);
 /// ```
 pub fn cfgetospeed(termios: &Termios) -> speed_t {
-    unsafe { ffi::cfgetospeed(termios) }
+    unsafe { ffi::cfgetospeed(termios.inner()) }
 }
 
 /// Sets the input baud rate.
@@ -108,7 +134,7 @@ pub fn cfgetospeed(termios: &Termios) -> speed_t {
 /// assert_eq!(cfgetispeed(&termios), B9600);
 /// ```
 pub fn cfsetispeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
-    io_result(unsafe { ffi::cfsetispeed(termios, speed) })
+    io_result(unsafe { ffi::cfsetispeed(termios.inner_mut(), speed) })
 }
 
 /// Sets the output baud rate.
@@ -151,7 +177,7 @@ pub fn cfsetispeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
 /// assert_eq!(cfgetospeed(&termios), B9600);
 /// ```
 pub fn cfsetospeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
-    io_result(unsafe { ffi::cfsetospeed(termios, speed) })
+    io_result(unsafe { ffi::cfsetospeed(termios.inner_mut(), speed) })
 }
 
 /// Sets input and output baud rates.
@@ -197,7 +223,7 @@ pub fn cfsetospeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
 /// This function is not part of the IEEE Std 1003.1 ("POSIX.1") specification, but it is available
 /// on Linux, BSD, and OS X.
 pub fn cfsetspeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
-    io_result(unsafe { ffi::cfsetspeed(termios, speed) })
+    io_result(unsafe { ffi::cfsetspeed(termios.inner_mut(), speed) })
 }
 
 /// Sets flags to disable all input and output processing.
@@ -210,7 +236,7 @@ pub fn cfsetspeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
 /// This function is not part of the IEEE Std 1003.1 ("POSIX.1") specification, but it is available
 /// on Linux, BSD, and OS X.
 pub fn cfmakeraw(termios: &mut Termios) {
-    unsafe { ffi::cfmakeraw(termios) };
+    unsafe { ffi::cfmakeraw(termios.inner_mut()) };
 }
 
 /// Blocks until all output written to the file descriptor is transmitted.
@@ -267,7 +293,7 @@ pub fn tcflush(fd: RawFd, queue_selector: c_int) -> io::Result<()> {
 /// * `termios` should be a mutable reference to the `Termios` structure that will hold the
 ///   terminal device's parameters.
 pub fn tcgetattr(fd: RawFd, termios: &mut Termios) -> io::Result<()> {
-    io_result(unsafe { ffi::tcgetattr(fd, termios) })
+    io_result(unsafe { ffi::tcgetattr(fd, termios.inner_mut()) })
 }
 
 /// Sets a terminal device's parameters.
@@ -296,7 +322,7 @@ pub fn tcgetattr(fd: RawFd, termios: &mut Termios) -> io::Result<()> {
 /// * `termios` should be a mutable reference to a `Termios` structure containing the parameters to
 ///   apply to the terminal device.
 pub fn tcsetattr(fd: RawFd, action: c_int, termios: &Termios) -> io::Result<()> {
-    io_result(unsafe { ffi::tcsetattr(fd, action, termios) })
+    io_result(unsafe { ffi::tcsetattr(fd, action, termios.inner()) })
 }
 
 /// Returns the process group ID of the controlling terminal's session.
