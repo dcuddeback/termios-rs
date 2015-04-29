@@ -1,6 +1,98 @@
 //! The `termios` crate provides Rust bindings for the POSIX termios API that is implemented on
-//! most Unix operating systems. The termios API is defined in the [IEEE Std 1003.1 ("POSIX.1")
+//! Unix operating systems. The termios API is defined in the [IEEE Std 1003.1 ("POSIX.1")
 //! specification](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/termios.h.html).
+//!
+//! ## Getting Started
+//!
+//! The termios API operates on file descriptors that are associated with terminal devices, e.g.,
+//! `/dev/tty*`. When used with other file descriptors, termios functions return an error. All
+//! functions that are part of the POSIX standard are included in the `termios` crate. Where file
+//! descriptors are expected, the type `std::os::unix::io::RawFd` is used, and integer error codes
+//! are translated to `std::io::Result`.
+//!
+//! A major feature of the termios API is configuring a terminal device's parameters. The POSIX
+//! standard defines a `termios` structure that contains the parameters and several functions for
+//! manipulating the parameters. The `termios` crate defines a safe constructor that returns a
+//! [`Termios`](struct.Termios.html) struct populated with the parameters of an open terminal
+//! device:
+//!
+//! ```no_run
+//! use termios::*;
+//! # let fd = 1;
+//! let mut termios = Termios::from_fd(fd).unwrap();
+//! ```
+//!
+//! The [`Termios`](struct.Termios.html) struct provides access to the fields defined in the POSIX
+//! standard (`c_iflag`, `c_oflag`, `c_cflag`, `c_lflag`, and `c_cc`):
+//!
+//! ```no_run
+//! # use termios::*;
+//! # let fd = 1;
+//! # let mut termios = Termios::from_fd(fd).unwrap();
+//! termios.c_cflag |= CREAD | CLOCAL;
+//! termios.c_lflag &= !(ICANON | ECHO | ECHOE | ECHOK | ECHONL | ISIG | IEXTEN);
+//! termios.c_oflag &= !OPOST;
+//! termios.c_iflag &= !(INLCR | IGNCR | ICRNL | IGNBRK);
+//!
+//! termios.c_cc[VMIN] = 0;
+//! termios.c_cc[VTIME] = 0;
+//! ```
+//!
+//! The [`Termios`](struct.Termios.html) struct can also be manipulated using any of the standard
+//! termios API functions:
+//!
+//! ```no_run
+//! # use termios::*;
+//! # let fd = 1;
+//! # let mut termios = Termios::from_fd(fd).unwrap();
+//! cfgetispeed(&termios);
+//! cfgetospeed(&termios);
+//! cfsetispeed(&mut termios, B9600).unwrap();
+//! cfsetospeed(&mut termios, B9600).unwrap();
+//! tcsetattr(fd, TCSANOW, &termios).unwrap();
+//! ```
+//!
+//! ## Portability
+//!
+//! The `termios` crate is organized in a way to help write portable code, while also allowing
+//! access to OS-specific functionality when necessary.
+//!
+//! The crate root contains types, constants, and function definitions that are common across Unix
+//! operating systems. Most of the definitions in the crate root are from the POSIX standard;
+//! however, support for the standard may differ across operating systems. A couple functions in
+//! the crate root are not part of the POSIX standard, but are included in the crate root because
+//! they are widely available across Unix operating systems.
+//!
+//! To write portable code, import the `termios` crate and use only the definitions from the crate
+//! root.
+//!
+//! ### OS-Specific Extensions
+//!
+//! Each operating system may define extensions to the POSIX API. To make it clear when code
+//! depends on OS-specific definitions, any non-standard definitions are exported in the
+//! `termios::os` module. Programs that depend on OS-specific functionality must explicity opt-in.
+//! When writing portable code that depends on OS-specific definitions, it will often be necessary
+//! to use `#[cfg(...)]` attributes to support alternative implementations. The following is an
+//! example of a portable function that sets the maximum speed on a `Termios` struct.
+//!
+//! ```no_run
+//! use std::io;
+//! use termios::{Termios,cfsetspeed};
+//!
+//! #[cfg(target_os = "linux")]
+//! fn set_fastest_speed(termios: &mut Termios) -> io::Result<()> {
+//!     cfsetspeed(termios, termios::os::B4000000)
+//! }
+//!
+//! #[cfg(target_os = "macos")]
+//! fn set_fastest_speed(termios: &mut Termios) -> io::Result<()> {
+//!     cfsetspeed(termios, termios::os::B230400)
+//! }
+//!
+//! # let fd = 1;
+//! let mut termios = Termios::from_fd(fd).unwrap();
+//! set_fastest_speed(&mut termios).unwrap();
+//! ```
 
 extern crate libc;
 
@@ -25,6 +117,41 @@ pub mod ffi;
 pub mod os;
 
 
+/// Unix terminal I/O control structure.
+///
+/// The `Termios` structure is a thin wrapper for the OS-specific `termios` struct. The only safe
+/// way to obtain a `Termios` structure is to fill one from a file descriptor with
+/// [`Termios::from_fd()`](#method.from_fd), after which it can be treated just like the POSIX
+/// `termios` struct. It provides access to the standard fields of the `termios` struct (`c_iflag`,
+/// `c_oflag`, `c_cflag`, `c_lflag`, and `c_cc`) through the `Deref` and `DerefMut` traits.
+///
+/// ## Example
+///
+/// The following is an example of how one might setup a file descriptor for a serial port:
+///
+/// ```no_run
+/// use std::io;
+/// use std::os::unix::io::RawFd;
+///
+/// fn setup_serial(fd: RawFd) -> io::Result<()> {
+///     use termios::*;
+///
+///     let mut termios = try!(Termios::from_fd(fd));
+///
+///     termios.c_cflag |= CREAD | CLOCAL;
+///     termios.c_lflag &= !(ICANON | ECHO | ECHOE | ECHOK | ECHONL | ISIG | IEXTEN);
+///     termios.c_oflag &= !OPOST;
+///     termios.c_iflag &= !(INLCR | IGNCR | ICRNL | IGNBRK);
+///
+///     termios.c_cc[VMIN] = 0;
+///     termios.c_cc[VTIME] = 0;
+///
+///     try!(cfsetspeed(&mut termios, B9600));
+///     try!(tcsetattr(fd, TCSANOW, &mut termios));
+///
+///     Ok(())
+/// }
+/// ```
 #[derive(Debug,Copy,Clone,Eq,PartialEq)]
 pub struct Termios {
     inner: os::termios
@@ -32,6 +159,8 @@ pub struct Termios {
 
 impl Termios {
     /// Creates a `Termios` structure based on the current settings of a file descriptor.
+    ///
+    /// `fd` must be an open file descriptor for a terminal device.
     pub fn from_fd(fd: RawFd) -> io::Result<Self> {
         let mut termios = unsafe { mem::uninitialized() };
 
