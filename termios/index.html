@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `termios` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, termios">
+
+    <title>termios - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'></p><script>window.sidebarCurrent = {name: 'termios', ty: 'mod', relpath: '../'};</script>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>termios</a><wbr></span><span class='out-of-band'><a href='stability.html'>[stability]</a> <span id='render-detail'>
+            <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
+        </span><a id='src-0' href='../src/termios/lib.rs.html#1-488'>[src]</a></span></h1>
+<div class='docblock'><p>The <code>termios</code> crate provides Rust bindings for the POSIX termios API that is implemented on
+Unix operating systems. The termios API is defined in the <a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/termios.h.html">IEEE Std 1003.1 (&quot;POSIX.1&quot;)
+specification</a>.</p>
+
+<h2 id="getting-started" class='section-header'><a
+                           href="#getting-started">Getting Started</a></h2>
+<p>The termios API operates on file descriptors that are associated with terminal devices, e.g.,
+<code>/dev/tty*</code>. When used with other file descriptors, termios functions return an error. All
+functions that are part of the POSIX standard are included in the <code>termios</code> crate. Where file
+descriptors are expected, the type <code>std::os::unix::io::RawFd</code> is used, and integer error codes
+are translated to <code>std::io::Result</code>.</p>
+
+<p>A major feature of the termios API is configuring a terminal device&#39;s parameters. The POSIX
+standard defines a <code>termios</code> structure that contains the parameters and several functions for
+manipulating the parameters. The <code>termios</code> crate defines a safe constructor that returns a
+<a href="struct.Termios.html"><code>Termios</code></a> struct populated with the parameters of an open terminal
+device:</p>
+<pre id='rust-example-rendered' class='rust '>
+<span class='kw'>use</span> <span class='ident'>termios</span>::<span class='op'>*</span>;
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>termios</span> <span class='op'>=</span> <span class='ident'>Termios</span>::<span class='ident'>from_fd</span>(<span class='ident'>fd</span>).<span class='ident'>unwrap</span>();
+</pre>
+
+<p>The <a href="struct.Termios.html"><code>Termios</code></a> struct provides access to the fields defined in the POSIX
+standard (<code>c_iflag</code>, <code>c_oflag</code>, <code>c_cflag</code>, <code>c_lflag</code>, and <code>c_cc</code>):</p>
+<pre id='rust-example-rendered' class='rust '>
+<span class='ident'>termios</span>.<span class='ident'>c_cflag</span> <span class='op'>|=</span> <span class='ident'>CREAD</span> <span class='op'>|</span> <span class='ident'>CLOCAL</span>;
+<span class='ident'>termios</span>.<span class='ident'>c_lflag</span> <span class='op'>&amp;=</span> <span class='op'>!</span>(<span class='ident'>ICANON</span> <span class='op'>|</span> <span class='ident'>ECHO</span> <span class='op'>|</span> <span class='ident'>ECHOE</span> <span class='op'>|</span> <span class='ident'>ECHOK</span> <span class='op'>|</span> <span class='ident'>ECHONL</span> <span class='op'>|</span> <span class='ident'>ISIG</span> <span class='op'>|</span> <span class='ident'>IEXTEN</span>);
+<span class='ident'>termios</span>.<span class='ident'>c_oflag</span> <span class='op'>&amp;=</span> <span class='op'>!</span><span class='ident'>OPOST</span>;
+<span class='ident'>termios</span>.<span class='ident'>c_iflag</span> <span class='op'>&amp;=</span> <span class='op'>!</span>(<span class='ident'>INLCR</span> <span class='op'>|</span> <span class='ident'>IGNCR</span> <span class='op'>|</span> <span class='ident'>ICRNL</span> <span class='op'>|</span> <span class='ident'>IGNBRK</span>);
+
+<span class='ident'>termios</span>.<span class='ident'>c_cc</span>[<span class='ident'>VMIN</span>] <span class='op'>=</span> <span class='number'>0</span>;
+<span class='ident'>termios</span>.<span class='ident'>c_cc</span>[<span class='ident'>VTIME</span>] <span class='op'>=</span> <span class='number'>0</span>;
+</pre>
+
+<p>The <a href="struct.Termios.html"><code>Termios</code></a> struct can also be manipulated using any of the standard
+termios API functions:</p>
+<pre id='rust-example-rendered' class='rust '>
+<span class='ident'>cfgetispeed</span>(<span class='kw-2'>&amp;</span><span class='ident'>termios</span>);
+<span class='ident'>cfgetospeed</span>(<span class='kw-2'>&amp;</span><span class='ident'>termios</span>);
+<span class='ident'>cfsetispeed</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>termios</span>, <span class='ident'>B9600</span>).<span class='ident'>unwrap</span>();
+<span class='ident'>cfsetospeed</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>termios</span>, <span class='ident'>B9600</span>).<span class='ident'>unwrap</span>();
+<span class='ident'>tcsetattr</span>(<span class='ident'>fd</span>, <span class='ident'>TCSANOW</span>, <span class='kw-2'>&amp;</span><span class='ident'>termios</span>).<span class='ident'>unwrap</span>();
+</pre>
+
+<h2 id="portability" class='section-header'><a
+                           href="#portability">Portability</a></h2>
+<p>The <code>termios</code> crate is organized in a way to help write portable code, while also allowing
+access to OS-specific functionality when necessary.</p>
+
+<p>The crate root contains types, constants, and function definitions that are common across Unix
+operating systems. Most of the definitions in the crate root are from the POSIX standard;
+however, support for the standard may differ across operating systems. A couple functions in
+the crate root are not part of the POSIX standard, but are included in the crate root because
+they are widely available across Unix operating systems.</p>
+
+<p>To write portable code, import the <code>termios</code> crate and use only the definitions from the crate
+root.</p>
+
+<h3 id="os-specific-extensions" class='section-header'><a
+                           href="#os-specific-extensions">OS-Specific Extensions</a></h3>
+<p>Each operating system may define extensions to the POSIX API. To make it clear when code
+depends on OS-specific definitions, any non-standard definitions are exported in the
+<code>termios::os</code> module. Programs that depend on OS-specific functionality must explicity opt-in.
+When writing portable code that depends on OS-specific definitions, it will often be necessary
+to use <code>#[cfg(...)]</code> attributes to support alternative implementations. The following is an
+example of a portable function that sets the maximum speed on a <code>Termios</code> struct.</p>
+<pre id='rust-example-rendered' class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
+<span class='kw'>use</span> <span class='ident'>termios</span>::{<span class='ident'>Termios</span>,<span class='ident'>cfsetspeed</span>};
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>)]</span>
+<span class='kw'>fn</span> <span class='ident'>set_fastest_speed</span>(<span class='ident'>termios</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Termios</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
+    <span class='ident'>cfsetspeed</span>(<span class='ident'>termios</span>, <span class='ident'>termios</span>::<span class='ident'>os</span>::<span class='ident'>linux</span>::<span class='ident'>B4000000</span>)
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>)]</span>
+<span class='kw'>fn</span> <span class='ident'>set_fastest_speed</span>(<span class='ident'>termios</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Termios</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
+    <span class='ident'>cfsetspeed</span>(<span class='ident'>termios</span>, <span class='ident'>termios</span>::<span class='ident'>os</span>::<span class='ident'>macos</span>::<span class='ident'>B230400</span>)
+}
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>termios</span> <span class='op'>=</span> <span class='ident'>Termios</span>::<span class='ident'>from_fd</span>(<span class='ident'>fd</span>).<span class='ident'>unwrap</span>();
+<span class='ident'>set_fastest_speed</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>termios</span>).<span class='ident'>unwrap</span>();
+</pre>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
+<table><tr><td><code>pub use os::target::{<a class='type' href='../termios/os/linux/type.cc_t.html' title='termios::os::linux::cc_t'>cc_t</a>, <a class='type' href='../termios/os/linux/type.speed_t.html' title='termios::os::linux::speed_t'>speed_t</a>, <a class='type' href='../termios/os/linux/type.tcflag_t.html' title='termios::os::linux::tcflag_t'>tcflag_t</a>};</code></td></tr><tr><td><code>pub use os::target::{VEOF, VEOL, VERASE, VINTR, VKILL, VMIN, VQUIT, VSTART, VSTOP, VSUSP, VTIME};</code></td></tr><tr><td><code>pub use os::target::{BRKINT, ICRNL, IGNBRK, IGNCR, IGNPAR, INLCR, INPCK, ISTRIP, IXANY, IXOFF, IXON, PARMRK};</code></td></tr><tr><td><code>pub use os::target::{OPOST, ONLCR, OCRNL, ONOCR, ONLRET, OFILL, NLDLY, NL0, NL1, CRDLY, CR0, CR1, CR2, CR3, TABDLY, TAB0, TAB1, TAB2, TAB3, BSDLY, BS0, BS1, VTDLY, VT0, VT1, FFDLY, FF0, FF1};</code></td></tr><tr><td><code>pub use os::target::{B0, B50, B75, B110, B134, B150, B200, B300, B600, B1200, B1800, B2400, B4800, B9600, B19200, B38400};</code></td></tr><tr><td><code>pub use os::target::{CSIZE, CS5, CS6, CS7, CS8, CSTOPB, CREAD, PARENB, PARODD, HUPCL, CLOCAL};</code></td></tr><tr><td><code>pub use os::target::{ECHO, ECHOE, ECHOK, ECHONL, ICANON, IEXTEN, ISIG, NOFLSH, TOSTOP};</code></td></tr><tr><td><code>pub use os::target::{TCSANOW, TCSADRAIN, TCSAFLUSH};</code></td></tr><tr><td><code>pub use os::target::{TCIFLUSH, TCIOFLUSH, TCOFLUSH, TCIOFF, TCION, TCOOFF, TCOON};</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='mod' href='ffi/index.html'
+                               title='termios::ffi'>ffi</a></td>
+                        <td class='docblock short'><p>Unsafe FFI bindings.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='mod' href='os/index.html'
+                               title='termios::os'>os</a></td>
+                        <td class='docblock short'><p>OS-specific definitions.</p>
+</td>
+                    </tr>
+                </table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Termios.html'
+                               title='termios::Termios'>Termios</a></td>
+                        <td class='docblock short'><p>Unix terminal I/O control structure.</p>
+</td>
+                    </tr>
+                </table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.cfgetispeed.html'
+                               title='termios::cfgetispeed'>cfgetispeed</a></td>
+                        <td class='docblock short'><p>Gets the input baud rate stored in a <code>Termios</code> structure.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.cfgetospeed.html'
+                               title='termios::cfgetospeed'>cfgetospeed</a></td>
+                        <td class='docblock short'><p>Gets the output baud rate stored in a <code>Termios</code> structure.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.cfmakeraw.html'
+                               title='termios::cfmakeraw'>cfmakeraw</a></td>
+                        <td class='docblock short'><p>Sets flags to disable all input and output processing.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.cfsetispeed.html'
+                               title='termios::cfsetispeed'>cfsetispeed</a></td>
+                        <td class='docblock short'><p>Sets the input baud rate.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.cfsetospeed.html'
+                               title='termios::cfsetospeed'>cfsetospeed</a></td>
+                        <td class='docblock short'><p>Sets the output baud rate.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.cfsetspeed.html'
+                               title='termios::cfsetspeed'>cfsetspeed</a></td>
+                        <td class='docblock short'><p>Sets input and output baud rates.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.tcdrain.html'
+                               title='termios::tcdrain'>tcdrain</a></td>
+                        <td class='docblock short'><p>Blocks until all output written to the file descriptor is transmitted.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.tcflow.html'
+                               title='termios::tcflow'>tcflow</a></td>
+                        <td class='docblock short'><p>Suspends or restarts transmission or reception of data.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.tcflush.html'
+                               title='termios::tcflush'>tcflush</a></td>
+                        <td class='docblock short'><p>Discards data waiting in the terminal device&#39;s buffers.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.tcgetattr.html'
+                               title='termios::tcgetattr'>tcgetattr</a></td>
+                        <td class='docblock short'><p>Populates a <code>Termios</code> structure with parameters associated with a terminal.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.tcgetsid.html'
+                               title='termios::tcgetsid'>tcgetsid</a></td>
+                        <td class='docblock short'><p>Returns the process group ID of the controlling terminal&#39;s session.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.tcsendbreak.html'
+                               title='termios::tcsendbreak'>tcsendbreak</a></td>
+                        <td class='docblock short'><p>Transmits data to generate a break condition.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.tcsetattr.html'
+                               title='termios::tcsetattr'>tcsetattr</a></td>
+                        <td class='docblock short'><p>Sets a terminal device&#39;s parameters.</p>
+</td>
+                    </tr>
+                </table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "termios";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script async src="../search-index.js"></script>
+</body>
+</html>
