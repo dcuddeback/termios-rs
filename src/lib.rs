@@ -81,12 +81,12 @@
 //!
 //! #[cfg(target_os = "linux")]
 //! fn set_fastest_speed(termios: &mut Termios) -> io::Result<()> {
-//!     cfsetspeed(termios, termios::os::B4000000)
+//!     cfsetspeed(termios, termios::os::linux::B4000000)
 //! }
 //!
 //! #[cfg(target_os = "macos")]
 //! fn set_fastest_speed(termios: &mut Termios) -> io::Result<()> {
-//!     cfsetspeed(termios, termios::os::B230400)
+//!     cfsetspeed(termios, termios::os::macos::B230400)
 //! }
 //!
 //! # let fd = 1;
@@ -103,15 +103,15 @@ use std::os::unix::io::RawFd;
 
 use libc::{c_int,pid_t};
 
-pub use os::{cc_t,speed_t,tcflag_t}; // types
-pub use os::{VEOF,VEOL,VERASE,VINTR,VKILL,VMIN,VQUIT,VSTART,VSTOP,VSUSP,VTIME}; // c_cc subscripts
-pub use os::{BRKINT,ICRNL,IGNBRK,IGNCR,IGNPAR,INLCR,INPCK,ISTRIP,IXANY,IXOFF,IXON,PARMRK}; // input modes
-pub use os::{OPOST,ONLCR,OCRNL,ONOCR,ONLRET,OFILL,NLDLY,NL0,NL1,CRDLY,CR0,CR1,CR2,CR3,TABDLY,TAB0,TAB1,TAB2,TAB3,BSDLY,BS0,BS1,VTDLY,VT0,VT1,FFDLY,FF0,FF1}; // output modes
-pub use os::{B0,B50,B75,B110,B134,B150,B200,B300,B600,B1200,B1800,B2400,B4800,B9600,B19200,B38400}; // baud rate selection
-pub use os::{CSIZE,CS5,CS6,CS7,CS8,CSTOPB,CREAD,PARENB,PARODD,HUPCL,CLOCAL}; // control modes
-pub use os::{ECHO,ECHOE,ECHOK,ECHONL,ICANON,IEXTEN,ISIG,NOFLSH,TOSTOP}; // local modes
-pub use os::{TCSANOW,TCSADRAIN,TCSAFLUSH}; // attribute selection
-pub use os::{TCIFLUSH,TCIOFLUSH,TCOFLUSH,TCIOFF,TCION,TCOOFF,TCOON}; // line control
+pub use ::os::target::{cc_t,speed_t,tcflag_t}; // types
+pub use ::os::target::{VEOF,VEOL,VERASE,VINTR,VKILL,VMIN,VQUIT,VSTART,VSTOP,VSUSP,VTIME}; // c_cc subscripts
+pub use ::os::target::{BRKINT,ICRNL,IGNBRK,IGNCR,IGNPAR,INLCR,INPCK,ISTRIP,IXANY,IXOFF,IXON,PARMRK}; // input modes
+pub use ::os::target::{OPOST,ONLCR,OCRNL,ONOCR,ONLRET,OFILL,NLDLY,NL0,NL1,CRDLY,CR0,CR1,CR2,CR3,TABDLY,TAB0,TAB1,TAB2,TAB3,BSDLY,BS0,BS1,VTDLY,VT0,VT1,FFDLY,FF0,FF1}; // output modes
+pub use ::os::target::{B0,B50,B75,B110,B134,B150,B200,B300,B600,B1200,B1800,B2400,B4800,B9600,B19200,B38400}; // baud rate selection
+pub use ::os::target::{CSIZE,CS5,CS6,CS7,CS8,CSTOPB,CREAD,PARENB,PARODD,HUPCL,CLOCAL}; // control modes
+pub use ::os::target::{ECHO,ECHOE,ECHOK,ECHONL,ICANON,IEXTEN,ISIG,NOFLSH,TOSTOP}; // local modes
+pub use ::os::target::{TCSANOW,TCSADRAIN,TCSAFLUSH}; // attribute selection
+pub use ::os::target::{TCIFLUSH,TCIOFLUSH,TCOFLUSH,TCIOFF,TCION,TCOOFF,TCOON}; // line control
 
 pub mod ffi;
 pub mod os;
@@ -154,7 +154,7 @@ pub mod os;
 /// ```
 #[derive(Debug,Copy,Clone,Eq,PartialEq)]
 pub struct Termios {
-    inner: os::termios
+    inner: ::os::target::termios
 }
 
 impl Termios {
@@ -170,25 +170,25 @@ impl Termios {
         }
     }
 
-    fn inner(&self) -> &os::termios {
+    fn inner(&self) -> &::os::target::termios {
         &self.inner
     }
 
-    fn inner_mut(&mut self) -> &mut os::termios {
+    fn inner_mut(&mut self) -> &mut ::os::target::termios {
         &mut self.inner
     }
 }
 
 impl Deref for Termios {
-    type Target = os::termios;
+    type Target = ::os::target::termios;
 
-    fn deref(&self) -> &os::termios {
+    fn deref(&self) -> &::os::target::termios {
         self.inner()
     }
 }
 
 impl DerefMut for Termios {
-    fn deref_mut(&mut self) -> &mut os::termios {
+    fn deref_mut(&mut self) -> &mut ::os::target::termios {
         self.inner_mut()
     }
 }
