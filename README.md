@@ -16,7 +16,7 @@ Add `termios` as a dependency in `Cargo.toml`:
 
 ```toml
 [dependencies]
-termios = "0.0.5"
+termios = "0.1.0"
 ```
 
 Import the `termios` crate and any symbols needed from `termios`. You may also need
