@@ -1,14 +1,15 @@
 # Termios Rust Bindings
 
+[Documentation](http://dcuddeback.github.io/termios-rs/termios/)
+
 The `termios` crate provides safe bindings for the Rust programming language to the [terminal I/O
 interface](http://pubs.opengroup.org/onlinepubs/009695399/basedefs/termios.h.html) implemented by
 Unix operating systems. The safe bindings are a small wrapper around the raw C functions, which
-converts integer return values to `std::io::Result` to indicate success or failure. The raw C
-functions are available in the `termios::ffi` module, but must be called within an `unsafe` block.
+converts integer return values to `std::io::Result` to indicate success or failure.
 
 ## Dependencies
 In order to use the `termios` crate, you must have a native `libc` library that implements the
-`termios` API. This should be available on any recent version of OSX or Linux using `glibc`.
+termios API. This should be available on any Unix operating system.
 
 ## Usage
 Add `termios` as a dependency in `Cargo.toml`:
@@ -16,33 +17,32 @@ Add `termios` as a dependency in `Cargo.toml`:
 ```toml
 [dependencies]
 termios = "0.0.5"
-libc = "0.1.5"
 ```
 
-Import the `termios` crate and any symbols needed from `termios`. You will also probably need
-`libc::c_int` for file descriptors and `std::io::Result` to propagate errors.
+Import the `termios` crate and any symbols needed from `termios`. You may also need
+`std::os::unix::io::RawFd` for file descriptors and `std::io::Result` to propagate errors.
 
 ```rust
 extern crate termios;
-extern crate libc;
 
 use std::io;
-use libc::c_int;
+use std::os::unix::io::RawFd;
+
 use termios::*;
 
-fn setup_fd(fd: c_int) -> io::Result<()> {
-  let mut tios = try!(Termios::from_fd(fd));
+fn setup_fd(fd: RawFd) -> io::Result<()> {
+  let mut termios = try!(Termios::from_fd(fd));
 
-  tios.c_iflag = IGNPAR | IGNBRK;
-  tios.c_oflag = 0;
-  tios.c_cflag = CS8 | CREAD | CLOCAL;
-  tios.c_lflag = 0;
+  termios.c_iflag = IGNPAR | IGNBRK;
+  termios.c_oflag = 0;
+  termios.c_cflag = CS8 | CREAD | CLOCAL;
+  termios.c_lflag = 0;
 
-  try!(cfsetspeed(&mut tios, B9600));
-  try!(tcsetattr(fd, TCSANOW, &tios));
+  try!(cfsetspeed(&mut termios, B9600));
+  try!(tcsetattr(fd, TCSANOW, &termios));
   try!(tcflush(fd, TCIOFLUSH));
 
-  Ok(());
+  Ok(())
 }
 ```
 
