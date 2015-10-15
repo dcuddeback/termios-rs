@@ -62,6 +62,7 @@ pub const ONLCR:  tcflag_t = 0x00000002;
 pub const TABDLY: tcflag_t = 0x00000004;
 pub const TAB0:   tcflag_t = 0x00000000;
 pub const TAB3:   tcflag_t = 0x00000004;
+pub const OXTABS: tcflag_t = TAB3;
 pub const ONOEOT: tcflag_t = 0x00000008;
 pub const OCRNL:  tcflag_t = 0x00000010;
 pub const ONOCR:  tcflag_t = 0x00000020;
@@ -86,6 +87,7 @@ pub const CRTS_IFLOW: tcflag_t = 0x00020000;
 pub const CDTR_IFLOW: tcflag_t = 0x00040000;
 pub const CDSR_OFLOW: tcflag_t = 0x00080000;
 pub const CCAR_OFLOW: tcflag_t = 0x00100000;
+pub const MDMBUF:     tcflag_t = CCAR_OFLOW;
 
 // c_lflag bits
 pub const ECHOKE:     tcflag_t = 0x00000001;
@@ -130,6 +132,8 @@ pub const B57600:  speed_t = 57600;
 pub const B76800:  speed_t = 76800;
 pub const B115200: speed_t = 115200;
 pub const B230400: speed_t = 230400;
+pub const B460800: speed_t = 460800;
+pub const B921600: speed_t = 921600;
 pub const EXTA:    speed_t = 19200;
 pub const EXTB:    speed_t = 38400;
 
@@ -148,3 +152,4 @@ pub const TCIOFLUSH: c_int = 3;
 pub const TCSANOW:   c_int = 0;
 pub const TCSADRAIN: c_int = 1;
 pub const TCSAFLUSH: c_int = 2;
+pub const TCSASOFT:  c_int = 0x10;
