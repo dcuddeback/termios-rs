@@ -1,11 +1,11 @@
 # Termios Rust Bindings
 
-[Documentation](http://dcuddeback.github.io/termios-rs/termios/)
-
 The `termios` crate provides safe bindings for the Rust programming language to the [terminal I/O
 interface](http://pubs.opengroup.org/onlinepubs/009695399/basedefs/termios.h.html) implemented by
 Unix operating systems. The safe bindings are a small wrapper around the raw C functions, which
 converts integer return values to `std::io::Result` to indicate success or failure.
+
+* [Documentation](http://dcuddeback.github.io/termios-rs/termios/)
 
 ## Dependencies
 In order to use the `termios` crate, you must have a native `libc` library that implements the
