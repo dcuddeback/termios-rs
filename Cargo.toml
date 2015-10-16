@@ -1,7 +1,6 @@
 [package]
-
 name = "termios"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["David Cuddeback <david.cuddeback@gmail.com>"]
 description = "Safe bindings for the termios library."
 license = "MIT"
