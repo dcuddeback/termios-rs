@@ -9,7 +9,12 @@ converts integer return values to `std::io::Result` to indicate success or failu
 
 ## Dependencies
 In order to use the `termios` crate, you must have a native `libc` library that implements the
-termios API. This should be available on any Unix operating system.
+termios API. This should be available on any Unix operating system. It has been confirmed to work on
+the following platforms:
+
+* Linux (x86_64, armv6l)
+* OS X (x86_64)
+* FreeBSD (amd64)
 
 ## Usage
 Add `termios` as a dependency in `Cargo.toml`:
