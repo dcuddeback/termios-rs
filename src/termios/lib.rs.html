@@ -24,17 +24,17 @@
 
     
 
-    <section class="sidebar">
+    <nav class="sidebar">
         
         
-    </section>
+    </nav>
 
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
                        type="search">
             </div>
         </form>
@@ -528,6 +528,11 @@
 <span id="486">486</span>
 <span id="487">487</span>
 <span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! The `termios` crate provides Rust bindings for the POSIX termios API that is implemented on</span>
 <span class='doccomment'>//! Unix operating systems. The termios API is defined in the [IEEE Std 1003.1 (&quot;POSIX.1&quot;)</span>
@@ -620,6 +625,11 @@
 <span class='doccomment'>//!     cfsetspeed(termios, termios::os::macos::B230400)</span>
 <span class='doccomment'>//! }</span>
 <span class='doccomment'>//!</span>
+<span class='doccomment'>//! #[cfg(target_os = &quot;freebsd&quot;)]</span>
+<span class='doccomment'>//! fn set_fastest_speed(termios: &amp;mut Termios) -&gt; io::Result&lt;()&gt; {</span>
+<span class='doccomment'>//!     cfsetspeed(termios, termios::os::freebsd::B921600)</span>
+<span class='doccomment'>//! }</span>
+<span class='doccomment'>//!</span>
 <span class='doccomment'>//! # let fd = 1;</span>
 <span class='doccomment'>//! let mut termios = Termios::from_fd(fd).unwrap();</span>
 <span class='doccomment'>//! set_fastest_speed(&amp;mut termios).unwrap();</span>
@@ -637,7 +647,7 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::{<span class='ident'>cc_t</span>,<span class='ident'>speed_t</span>,<span class='ident'>tcflag_t</span>}; <span class='comment'>// types</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::{<span class='ident'>VEOF</span>,<span class='ident'>VEOL</span>,<span class='ident'>VERASE</span>,<span class='ident'>VINTR</span>,<span class='ident'>VKILL</span>,<span class='ident'>VMIN</span>,<span class='ident'>VQUIT</span>,<span class='ident'>VSTART</span>,<span class='ident'>VSTOP</span>,<span class='ident'>VSUSP</span>,<span class='ident'>VTIME</span>}; <span class='comment'>// c_cc subscripts</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::{<span class='ident'>BRKINT</span>,<span class='ident'>ICRNL</span>,<span class='ident'>IGNBRK</span>,<span class='ident'>IGNCR</span>,<span class='ident'>IGNPAR</span>,<span class='ident'>INLCR</span>,<span class='ident'>INPCK</span>,<span class='ident'>ISTRIP</span>,<span class='ident'>IXANY</span>,<span class='ident'>IXOFF</span>,<span class='ident'>IXON</span>,<span class='ident'>PARMRK</span>}; <span class='comment'>// input modes</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::{<span class='ident'>OPOST</span>,<span class='ident'>ONLCR</span>,<span class='ident'>OCRNL</span>,<span class='ident'>ONOCR</span>,<span class='ident'>ONLRET</span>,<span class='ident'>OFILL</span>,<span class='ident'>NLDLY</span>,<span class='ident'>NL0</span>,<span class='ident'>NL1</span>,<span class='ident'>CRDLY</span>,<span class='ident'>CR0</span>,<span class='ident'>CR1</span>,<span class='ident'>CR2</span>,<span class='ident'>CR3</span>,<span class='ident'>TABDLY</span>,<span class='ident'>TAB0</span>,<span class='ident'>TAB1</span>,<span class='ident'>TAB2</span>,<span class='ident'>TAB3</span>,<span class='ident'>BSDLY</span>,<span class='ident'>BS0</span>,<span class='ident'>BS1</span>,<span class='ident'>VTDLY</span>,<span class='ident'>VT0</span>,<span class='ident'>VT1</span>,<span class='ident'>FFDLY</span>,<span class='ident'>FF0</span>,<span class='ident'>FF1</span>}; <span class='comment'>// output modes</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::{<span class='ident'>OPOST</span>,<span class='ident'>ONLCR</span>,<span class='ident'>OCRNL</span>,<span class='ident'>TAB3</span>,<span class='ident'>ONOCR</span>,<span class='ident'>ONLRET</span>}; <span class='comment'>// output modes</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::{<span class='ident'>B0</span>,<span class='ident'>B50</span>,<span class='ident'>B75</span>,<span class='ident'>B110</span>,<span class='ident'>B134</span>,<span class='ident'>B150</span>,<span class='ident'>B200</span>,<span class='ident'>B300</span>,<span class='ident'>B600</span>,<span class='ident'>B1200</span>,<span class='ident'>B1800</span>,<span class='ident'>B2400</span>,<span class='ident'>B4800</span>,<span class='ident'>B9600</span>,<span class='ident'>B19200</span>,<span class='ident'>B38400</span>}; <span class='comment'>// baud rate selection</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::{<span class='ident'>CSIZE</span>,<span class='ident'>CS5</span>,<span class='ident'>CS6</span>,<span class='ident'>CS7</span>,<span class='ident'>CS8</span>,<span class='ident'>CSTOPB</span>,<span class='ident'>CREAD</span>,<span class='ident'>PARENB</span>,<span class='ident'>PARODD</span>,<span class='ident'>HUPCL</span>,<span class='ident'>CLOCAL</span>}; <span class='comment'>// control modes</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::{<span class='ident'>ECHO</span>,<span class='ident'>ECHOE</span>,<span class='ident'>ECHOK</span>,<span class='ident'>ECHONL</span>,<span class='ident'>ICANON</span>,<span class='ident'>IEXTEN</span>,<span class='ident'>ISIG</span>,<span class='ident'>NOFLSH</span>,<span class='ident'>TOSTOP</span>}; <span class='comment'>// local modes</span>
@@ -1023,36 +1033,49 @@
 
     <section class="footer"></section>
 
-    <div id="help" class="hidden">
-        <div class="shortcuts">
-            <h1>Keyboard shortcuts</h1>
-            <dl>
-                <dt>?</dt>
-                <dd>Show this help dialog</dd>
-                <dt>S</dt>
-                <dd>Focus the search field</dd>
-                <dt>&larrb;</dt>
-                <dd>Move up in search results</dd>
-                <dt>&rarrb;</dt>
-                <dd>Move down in search results</dd>
-                <dt>&#9166;</dt>
-                <dd>Go to active search result</dd>
-            </dl>
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
         </div>
-        <div class="infos">
-            <h1>Search tricks</h1>
-            <p>
-                Prefix searches with a type followed by a colon (e.g.
-                <code>fn:</code>) to restrict the search to a given type.
-            </p>
-            <p>
-                Accepted types are: <code>fn</code>, <code>mod</code>,
-                <code>struct</code>, <code>enum</code>,
-                <code>trait</code>, <code>typedef</code> (or
-                <code>tdef</code>).
-            </p>
-        </div>
-    </div>
+    </aside>
 
     
 
