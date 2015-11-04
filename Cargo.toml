@@ -11,4 +11,4 @@ readme = "README.md"
 keywords = ["termios", "tty", "terminal", "posix"]
 
 [dependencies]
-libc = "0.1.5"
+libc = "0.2"
