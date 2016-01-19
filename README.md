@@ -15,6 +15,7 @@ the following platforms:
 * Linux (x86_64, armv6l)
 * OS X (x86_64)
 * FreeBSD (amd64)
+* OpenBSD (amd64)
 
 ## Usage
 Add `termios` as a dependency in `Cargo.toml`:
