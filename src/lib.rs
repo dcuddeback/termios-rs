@@ -94,6 +94,11 @@
 //!     cfsetspeed(termios, termios::os::freebsd::B921600)
 //! }
 //!
+//! #[cfg(target_os = "openbsd")]
+//! fn set_fastest_speed(termios: &mut Termios) -> io::Result<()> {
+//!     cfsetspeed(termios, termios::os::openbsd::B921600)
+//! }
+//!
 //! # let fd = 1;
 //! let mut termios = Termios::from_fd(fd).unwrap();
 //! set_fastest_speed(&mut termios).unwrap();
