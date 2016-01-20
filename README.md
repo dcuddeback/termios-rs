@@ -56,6 +56,7 @@ fn setup_fd(fd: RawFd) -> io::Result<()> {
 * [dcuddeback](https://github.com/dcuddeback/)
 * [conradkleinespel](https://github.com/conradkleinespel)
 * [myfreeweb](https://github.com/myfreeweb)
+* [qbit](https://github.com/qbit)
 
 ## License
 Copyright © 2015 David Cuddeback
