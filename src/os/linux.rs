@@ -17,8 +17,8 @@ pub struct termios {
     pub c_lflag: tcflag_t,
     c_line: cc_t,
     pub c_cc: [cc_t; NCCS],
-    c_ispeed: speed_t,
-    c_ospeed: speed_t
+    pub c_ispeed: speed_t,
+    pub c_ospeed: speed_t,
 }
 
 pub const NCCS: usize = 32;
