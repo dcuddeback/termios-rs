@@ -178,3 +178,7 @@ pub const TCIOFLUSH: c_int = 2;
 pub const TCSANOW:   c_int = 0;
 pub const TCSADRAIN: c_int = 1;
 pub const TCSAFLUSH: c_int = 2;
+
+// ioctls should be a c_uint, not a c_int. the warning cause by this should
+// be ignore until the bug in ioctl-rs is fixed.
+pub const TCGETS2: c_int = (0x802c_542a as c_int);

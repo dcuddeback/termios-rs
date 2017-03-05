@@ -105,6 +105,8 @@
 //! ```
 
 extern crate libc;
+extern crate ioctl_rs as ioctl;
+
 
 use std::io;
 use std::mem;
@@ -171,6 +173,7 @@ impl Termios {
     /// Creates a `Termios` structure based on the current settings of a file descriptor.
     ///
     /// `fd` must be an open file descriptor for a terminal device.
+    #[cfg(not(target_os = "linux"))]
     pub fn from_fd(fd: RawFd) -> io::Result<Self> {
         let mut termios = unsafe { mem::uninitialized() };
 
@@ -179,6 +182,25 @@ impl Termios {
             Err(err) => Err(err)
         }
     }
+
+    /// Creates a `Termios` structure based on the current settings of a file descriptor.
+    ///
+    /// `fd` must be an open file descriptor for a terminal device.
+    #[cfg(target_os = "linux")]
+    pub fn from_fd(fd: RawFd) -> io::Result<Self> {
+        let mut termios: Termios = unsafe { mem::uninitialized() };
+
+        // on Linux, we use an ioctl to get the correct data structure
+        let err = unsafe { ioctl::ioctl(fd, os::linux::TCGETS2,
+                                        &mut termios.inner) };
+
+        if err != 0 {
+            return Err(io::Error::last_os_error())
+        }
+
+        Ok(termios)
+    }
+
 
     fn inner(&self) -> &::os::target::termios {
         &self.inner
