@@ -21,7 +21,7 @@ pub struct termios {
     c_ospeed: speed_t
 }
 
-pub const NCCS: usize = 32;
+pub const NCCS: usize = 19;
 
 // c_cc characters
 pub const VINTR:    usize = 0;
