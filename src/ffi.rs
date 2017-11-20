@@ -1,7 +1,5 @@
 //! Unsafe FFI bindings.
 
-extern crate libc;
-
 use libc::{c_int,pid_t};
 
 #[link(name = "c")]

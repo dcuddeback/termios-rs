@@ -1,7 +1,5 @@
 #![allow(non_camel_case_types)]
 
-extern crate libc;
-
 use libc::{c_int,c_uchar,c_ulong};
 
 pub type tcflag_t = c_ulong;
