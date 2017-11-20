@@ -121,7 +121,7 @@ use libc::{c_int,pid_t};
 pub use ::os::target::{cc_t,speed_t,tcflag_t}; // types
 pub use ::os::target::{VEOF,VEOL,VERASE,VINTR,VKILL,VMIN,VQUIT,VSTART,VSTOP,VSUSP,VTIME}; // c_cc subscripts
 pub use ::os::target::{BRKINT,ICRNL,IGNBRK,IGNCR,IGNPAR,INLCR,INPCK,ISTRIP,IXANY,IXOFF,IXON,PARMRK}; // input modes
-pub use ::os::target::{OPOST,ONLCR,OCRNL,TAB3,ONOCR,ONLRET}; // output modes
+pub use ::os::target::{OPOST,ONLCR,OCRNL,ONOCR,ONLRET}; // output modes
 pub use ::os::target::{B0,B50,B75,B110,B134,B150,B200,B300,B600,B1200,B1800,B2400,B4800,B9600,B19200,B38400}; // baud rate selection
 pub use ::os::target::{CSIZE,CS5,CS6,CS7,CS8,CSTOPB,CREAD,PARENB,PARODD,HUPCL,CLOCAL}; // control modes
 pub use ::os::target::{ECHO,ECHOE,ECHOK,ECHONL,ICANON,IEXTEN,ISIG,NOFLSH,TOSTOP}; // local modes
