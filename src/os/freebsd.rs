@@ -32,12 +32,14 @@ pub const VERASE2:  usize = 7;
 pub const VINTR:    usize = 8;
 pub const VQUIT:    usize = 9;
 pub const VSUSP:    usize = 10;
+pub const VDSUSP:   usize = 11;
 pub const VSTART:   usize = 12;
 pub const VSTOP:    usize = 13;
 pub const VLNEXT:   usize = 14;
 pub const VDISCARD: usize = 15;
 pub const VMIN:     usize = 16;
 pub const VTIME:    usize = 17;
+pub const VSTATUS:  usize = 18;
 
 // c_iflag bits
 pub const IGNBRK:  tcflag_t = 0x00000001;
