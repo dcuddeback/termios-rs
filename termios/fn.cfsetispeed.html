@@ -9,12 +9,15 @@
 
     <title>termios::cfsetispeed - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
+    
 
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc fn">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -40,13 +43,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>termios</a>::<wbr><a class='fn' href=''>cfsetispeed</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-338' class='srclink' href='../src/termios/lib.rs.html#270-272' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn cfsetispeed(termios: &amp;mut <a class='struct' href='../termios/struct.Termios.html' title='termios::Termios'>Termios</a>, speed: <a class='type' href='../termios/os/linux/type.speed_t.html' title='termios::os::linux::speed_t'>speed_t</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/std/io/error/type.Result.html' title='std::io::error::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</pre><div class='docblock'><p>Sets the input baud rate.</p>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>termios</a>::<wbr><a class="fn" href=''>cfsetispeed</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/termios/lib.rs.html#280-282' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn cfsetispeed(termios: &amp;mut <a class="struct" href="../termios/struct.Termios.html" title="struct termios::Termios">Termios</a>, speed: <a class="type" href="../termios/os/linux/type.speed_t.html" title="type termios::os::linux::speed_t">speed_t</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</pre><div class='docblock'><p>Sets the input baud rate.</p>
 
 <p>This function only sets the necessary values on the given <code>Termios</code> structure. The settings are
 applied by a subsequent call to <a href="fn.tcsetattr.html"><code>tcsetattr()</code></a>.</p>
@@ -79,9 +82,10 @@ applied by a subsequent call to <a href="fn.tcsetattr.html"><code>tcsetattr()</c
 
 <p>A value of <code>B0</code> for <code>speed</code> sets the input baud rate to be the same as the output baud rate.</p>
 
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
-<span class='ident'>cfsetispeed</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>termios</span>, <span class='ident'>B9600</span>).<span class='ident'>unwrap</span>();
-<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>cfgetispeed</span>(<span class='kw-2'>&amp;</span><span class='ident'>termios</span>), <span class='ident'>B9600</span>);</pre>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class="rust rust-example-rendered">
+<span class="ident">cfsetispeed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">termios</span>, <span class="ident">B9600</span>).<span class="ident">unwrap</span>();
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">cfgetispeed</span>(<span class="kw-2">&amp;</span><span class="ident">termios</span>), <span class="ident">B9600</span>);</pre>
 </div></section>
     <section id='search' class="content hidden"></section>
 
@@ -105,6 +109,8 @@ applied by a subsequent call to <a href="fn.tcsetattr.html"><code>tcsetattr()</c
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 
@@ -125,7 +131,7 @@ applied by a subsequent call to <a href="fn.tcsetattr.html"><code>tcsetattr()</c
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -136,11 +142,8 @@ applied by a subsequent call to <a href="fn.tcsetattr.html"><code>tcsetattr()</c
     <script>
         window.rootPath = "../";
         window.currentCrate = "termios";
-        window.playgroundUrl = "";
     </script>
-    <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

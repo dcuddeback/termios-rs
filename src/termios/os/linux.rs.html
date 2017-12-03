@@ -9,12 +9,15 @@
 
     <title>linux.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
 
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -40,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -218,189 +221,185 @@
 <span id="176">176</span>
 <span id="177">177</span>
 <span id="178">178</span>
-<span id="179">179</span>
-<span id="180">180</span>
-</pre><pre class='rust '>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>allow</span>(<span class='ident'>non_camel_case_types</span>)]</span>
+</pre><pre class="rust ">
+<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">non_camel_case_types</span>)]</span>
 
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
+<span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_int</span>,<span class="ident">c_uint</span>,<span class="ident">c_uchar</span>};
 
-<span class='kw'>use</span> <span class='ident'>libc</span>::{<span class='ident'>c_int</span>,<span class='ident'>c_uint</span>,<span class='ident'>c_uchar</span>};
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">cc_t</span> <span class="op">=</span> <span class="ident">c_uchar</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">speed_t</span> <span class="op">=</span> <span class="ident">c_uint</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="ident">c_uint</span>;
 
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>cc_t</span> <span class='op'>=</span> <span class='ident'>c_uchar</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='ident'>c_uint</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='ident'>c_uint</span>;
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>,<span class='ident'>Copy</span>,<span class='ident'>Clone</span>,<span class='ident'>Eq</span>,<span class='ident'>PartialEq</span>)]</span>
-<span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>termios</span> {
-    <span class='kw'>pub</span> <span class='ident'>c_iflag</span>: <span class='ident'>tcflag_t</span>,
-    <span class='kw'>pub</span> <span class='ident'>c_oflag</span>: <span class='ident'>tcflag_t</span>,
-    <span class='kw'>pub</span> <span class='ident'>c_cflag</span>: <span class='ident'>tcflag_t</span>,
-    <span class='kw'>pub</span> <span class='ident'>c_lflag</span>: <span class='ident'>tcflag_t</span>,
-    <span class='ident'>c_line</span>: <span class='ident'>cc_t</span>,
-    <span class='kw'>pub</span> <span class='ident'>c_cc</span>: [<span class='ident'>cc_t</span>; <span class='ident'>NCCS</span>],
-    <span class='ident'>c_ispeed</span>: <span class='ident'>speed_t</span>,
-    <span class='ident'>c_ospeed</span>: <span class='ident'>speed_t</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>,<span class="ident">Copy</span>,<span class="ident">Clone</span>,<span class="ident">Eq</span>,<span class="ident">PartialEq</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">termios</span> {
+    <span class="kw">pub</span> <span class="ident">c_iflag</span>: <span class="ident">tcflag_t</span>,
+    <span class="kw">pub</span> <span class="ident">c_oflag</span>: <span class="ident">tcflag_t</span>,
+    <span class="kw">pub</span> <span class="ident">c_cflag</span>: <span class="ident">tcflag_t</span>,
+    <span class="kw">pub</span> <span class="ident">c_lflag</span>: <span class="ident">tcflag_t</span>,
+    <span class="ident">c_line</span>: <span class="ident">cc_t</span>,
+    <span class="kw">pub</span> <span class="ident">c_cc</span>: [<span class="ident">cc_t</span>; <span class="ident">NCCS</span>],
+    <span class="ident">c_ispeed</span>: <span class="ident">speed_t</span>,
+    <span class="ident">c_ospeed</span>: <span class="ident">speed_t</span>
 }
 
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>NCCS</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>32</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">NCCS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">32</span>;
 
-<span class='comment'>// c_cc characters</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VINTR</span>:    <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VQUIT</span>:    <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>1</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VERASE</span>:   <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>2</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VKILL</span>:    <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>3</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VEOF</span>:     <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>4</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VTIME</span>:    <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>5</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VMIN</span>:     <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>6</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VSWTC</span>:    <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>7</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VSTART</span>:   <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>8</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VSTOP</span>:    <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>9</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VSUSP</span>:    <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>10</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VEOL</span>:     <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>11</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VREPRINT</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>12</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VDISCARD</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>13</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VWERASE</span>:  <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>14</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VLNEXT</span>:   <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>15</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VEOL2</span>:    <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>16</span>;
+<span class="comment">// c_cc characters</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VINTR</span>:    <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VQUIT</span>:    <span class="ident">usize</span> <span class="op">=</span> <span class="number">1</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VERASE</span>:   <span class="ident">usize</span> <span class="op">=</span> <span class="number">2</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VKILL</span>:    <span class="ident">usize</span> <span class="op">=</span> <span class="number">3</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VEOF</span>:     <span class="ident">usize</span> <span class="op">=</span> <span class="number">4</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VTIME</span>:    <span class="ident">usize</span> <span class="op">=</span> <span class="number">5</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VMIN</span>:     <span class="ident">usize</span> <span class="op">=</span> <span class="number">6</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VSWTC</span>:    <span class="ident">usize</span> <span class="op">=</span> <span class="number">7</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VSTART</span>:   <span class="ident">usize</span> <span class="op">=</span> <span class="number">8</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VSTOP</span>:    <span class="ident">usize</span> <span class="op">=</span> <span class="number">9</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VSUSP</span>:    <span class="ident">usize</span> <span class="op">=</span> <span class="number">10</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VEOL</span>:     <span class="ident">usize</span> <span class="op">=</span> <span class="number">11</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VREPRINT</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">12</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VDISCARD</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">13</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VWERASE</span>:  <span class="ident">usize</span> <span class="op">=</span> <span class="number">14</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VLNEXT</span>:   <span class="ident">usize</span> <span class="op">=</span> <span class="number">15</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VEOL2</span>:    <span class="ident">usize</span> <span class="op">=</span> <span class="number">16</span>;
 
-<span class='comment'>// c_iflag bits</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>IGNBRK</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000001</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>BRKINT</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000002</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>IGNPAR</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000004</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>PARMRK</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000010</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>INPCK</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000020</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ISTRIP</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000040</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>INLCR</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000100</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>IGNCR</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000200</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ICRNL</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000400</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>IUCLC</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o001000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>IXON</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o002000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>IXANY</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o004000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>IXOFF</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o010000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>IMAXBEL</span>: <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o020000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>IUTF8</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o040000</span>;
+<span class="comment">// c_iflag bits</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IGNBRK</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000001</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">BRKINT</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000002</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IGNPAR</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000004</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PARMRK</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000010</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">INPCK</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000020</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ISTRIP</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000040</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">INLCR</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000100</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IGNCR</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000200</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ICRNL</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000400</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IUCLC</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o001000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IXON</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o002000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IXANY</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o004000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IXOFF</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o010000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IMAXBEL</span>: <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o020000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IUTF8</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o040000</span>;
 
-<span class='comment'>// c_oflag bits</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>OPOST</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000001</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>OLCUC</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000002</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ONLCR</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000004</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>OCRNL</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000010</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ONOCR</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000020</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ONLRET</span>: <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000040</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>OFILL</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000100</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>OFDEL</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000200</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>NLDLY</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000400</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>NL0</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>NL1</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000400</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CRDLY</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o003000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CR0</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CR1</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o001000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CR2</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o002000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CR3</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o003000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TABDLY</span>: <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o014000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TAB0</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TAB1</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o004000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TAB2</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o010000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TAB3</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o014000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>BSDLY</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o020000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>BS0</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>BS1</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o020000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>FFDLY</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o100000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>FF0</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>FF1</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o100000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VTDLY</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o040000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VT0</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VT1</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o040000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>XTABS</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o014000</span>;
+<span class="comment">// c_oflag bits</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">OPOST</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000001</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">OLCUC</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000002</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ONLCR</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000004</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">OCRNL</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000010</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ONOCR</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000020</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ONLRET</span>: <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000040</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">OFILL</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000100</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">OFDEL</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000200</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">NLDLY</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000400</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">NL0</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">NL1</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000400</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CRDLY</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o003000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CR0</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CR1</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o001000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CR2</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o002000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CR3</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o003000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TABDLY</span>: <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o014000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TAB0</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TAB1</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o004000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TAB2</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o010000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TAB3</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o014000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">BSDLY</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o020000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">BS0</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">BS1</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o020000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FFDLY</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o100000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FF0</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FF1</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o100000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VTDLY</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o040000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VT0</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VT1</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o040000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">XTABS</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o014000</span>;
 
-<span class='comment'>// c_cflag bits</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CBAUD</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o010017</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CSIZE</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000060</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CS5</span>:      <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CS6</span>:      <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000020</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CS7</span>:      <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000040</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CS8</span>:      <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000060</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CSTOPB</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000100</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CREAD</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000200</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>PARENB</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000400</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>PARODD</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o001000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>HUPCL</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o002000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CLOCAL</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o004000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CBAUDEX</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o010000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CIBAUD</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o02003600000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CMSPAR</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o10000000000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>CRTSCTS</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o20000000000</span>;
+<span class="comment">// c_cflag bits</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CBAUD</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o010017</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CSIZE</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000060</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CS5</span>:      <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CS6</span>:      <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000020</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CS7</span>:      <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000040</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CS8</span>:      <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000060</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CSTOPB</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000100</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CREAD</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000200</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PARENB</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000400</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PARODD</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o001000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">HUPCL</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o002000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CLOCAL</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o004000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CBAUDEX</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o010000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CIBAUD</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o02003600000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CMSPAR</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o10000000000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">CRTSCTS</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o20000000000</span>;
 
-<span class='comment'>// c_lflag bits</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ISIG</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000001</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ICANON</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000002</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>XCASE</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000004</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ECHO</span>:    <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000010</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ECHOE</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000020</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ECHOK</span>:   <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000040</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ECHONL</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000100</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>NOFLSH</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000200</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TOSTOP</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o000400</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ECHOCTL</span>: <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o001000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ECHOPRT</span>: <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o002000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ECHOKE</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o004000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>FLUSHO</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o010000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>PENDIN</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o040000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>IEXTEN</span>:  <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o100000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>EXTPROC</span>: <span class='ident'>tcflag_t</span> <span class='op'>=</span> <span class='number'>0o200000</span>;
+<span class="comment">// c_lflag bits</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ISIG</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000001</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ICANON</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000002</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">XCASE</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000004</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ECHO</span>:    <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000010</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ECHOE</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000020</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ECHOK</span>:   <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000040</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ECHONL</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000100</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">NOFLSH</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000200</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TOSTOP</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o000400</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ECHOCTL</span>: <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o001000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ECHOPRT</span>: <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o002000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ECHOKE</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o004000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FLUSHO</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o010000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PENDIN</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o040000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IEXTEN</span>:  <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o100000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">EXTPROC</span>: <span class="ident">tcflag_t</span> <span class="op">=</span> <span class="number">0o200000</span>;
 
-<span class='comment'>// baud rates</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B0</span>:       <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000000</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B50</span>:      <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000001</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B75</span>:      <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000002</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B110</span>:     <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000003</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B134</span>:     <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000004</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B150</span>:     <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000005</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B200</span>:     <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000006</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B300</span>:     <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000007</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B600</span>:     <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000010</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B1200</span>:    <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000011</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B1800</span>:    <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000012</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B2400</span>:    <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000013</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B4800</span>:    <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000014</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B9600</span>:    <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000015</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B19200</span>:   <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000016</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B38400</span>:   <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o000017</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>EXTA</span>:     <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='ident'>B19200</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>EXTB</span>:     <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='ident'>B38400</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B57600</span>:   <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010001</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B115200</span>:  <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010002</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B230400</span>:  <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010003</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B460800</span>:  <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010004</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B500000</span>:  <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010005</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B576000</span>:  <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010006</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B921600</span>:  <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010007</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B1000000</span>: <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010010</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B1152000</span>: <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010011</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B1500000</span>: <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010012</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B2000000</span>: <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010013</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B2500000</span>: <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010014</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B3000000</span>: <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010015</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B3500000</span>: <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010016</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>B4000000</span>: <span class='ident'>speed_t</span> <span class='op'>=</span> <span class='number'>0o010017</span>;
+<span class="comment">// baud rates</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B0</span>:       <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000000</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B50</span>:      <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000001</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B75</span>:      <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000002</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B110</span>:     <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000003</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B134</span>:     <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000004</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B150</span>:     <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000005</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B200</span>:     <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000006</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B300</span>:     <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000007</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B600</span>:     <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000010</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B1200</span>:    <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000011</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B1800</span>:    <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000012</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B2400</span>:    <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000013</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B4800</span>:    <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000014</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B9600</span>:    <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000015</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B19200</span>:   <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000016</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B38400</span>:   <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o000017</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">EXTA</span>:     <span class="ident">speed_t</span> <span class="op">=</span> <span class="ident">B19200</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">EXTB</span>:     <span class="ident">speed_t</span> <span class="op">=</span> <span class="ident">B38400</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B57600</span>:   <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010001</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B115200</span>:  <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010002</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B230400</span>:  <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010003</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B460800</span>:  <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010004</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B500000</span>:  <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010005</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B576000</span>:  <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010006</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B921600</span>:  <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010007</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B1000000</span>: <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010010</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B1152000</span>: <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010011</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B1500000</span>: <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010012</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B2000000</span>: <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010013</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B2500000</span>: <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010014</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B3000000</span>: <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010015</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B3500000</span>: <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010016</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">B4000000</span>: <span class="ident">speed_t</span> <span class="op">=</span> <span class="number">0o010017</span>;
 
-<span class='comment'>// tcflow()</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCOOFF</span>: <span class='ident'>c_int</span> <span class='op'>=</span> <span class='number'>0</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCOON</span>:  <span class='ident'>c_int</span> <span class='op'>=</span> <span class='number'>1</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCIOFF</span>: <span class='ident'>c_int</span> <span class='op'>=</span> <span class='number'>2</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCION</span>:  <span class='ident'>c_int</span> <span class='op'>=</span> <span class='number'>3</span>;
+<span class="comment">// tcflow()</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TCOOFF</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">0</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TCOON</span>:  <span class="ident">c_int</span> <span class="op">=</span> <span class="number">1</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TCIOFF</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">2</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TCION</span>:  <span class="ident">c_int</span> <span class="op">=</span> <span class="number">3</span>;
 
-<span class='comment'>// tcflush()</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCIFLUSH</span>:  <span class='ident'>c_int</span> <span class='op'>=</span> <span class='number'>0</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCOFLUSH</span>:  <span class='ident'>c_int</span> <span class='op'>=</span> <span class='number'>1</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCIOFLUSH</span>: <span class='ident'>c_int</span> <span class='op'>=</span> <span class='number'>2</span>;
+<span class="comment">// tcflush()</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TCIFLUSH</span>:  <span class="ident">c_int</span> <span class="op">=</span> <span class="number">0</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TCOFLUSH</span>:  <span class="ident">c_int</span> <span class="op">=</span> <span class="number">1</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TCIOFLUSH</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">2</span>;
 
-<span class='comment'>// tcsetattr()</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCSANOW</span>:   <span class='ident'>c_int</span> <span class='op'>=</span> <span class='number'>0</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCSADRAIN</span>: <span class='ident'>c_int</span> <span class='op'>=</span> <span class='number'>1</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCSAFLUSH</span>: <span class='ident'>c_int</span> <span class='op'>=</span> <span class='number'>2</span>;
+<span class="comment">// tcsetattr()</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TCSANOW</span>:   <span class="ident">c_int</span> <span class="op">=</span> <span class="number">0</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TCSADRAIN</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">1</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TCSAFLUSH</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">2</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
@@ -425,6 +424,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 
@@ -445,7 +446,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -456,11 +457,8 @@
     <script>
         window.rootPath = "../../../";
         window.currentCrate = "termios";
-        window.playgroundUrl = "";
     </script>
-    <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
-    
-    <script async src="../../../search-index.js"></script>
+    <script defer src="../../../search-index.js"></script>
 </body>
 </html>

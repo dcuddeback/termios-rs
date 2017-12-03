@@ -9,12 +9,15 @@
 
     <title>termios::tcgetattr - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
+    
 
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc fn">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -40,13 +43,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>termios</a>::<wbr><a class='fn' href=''>tcgetattr</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-357' class='srclink' href='../src/termios/lib.rs.html#429-431' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn tcgetattr(fd: <a class='type' href='https://doc.rust-lang.org/nightly/std/sys/ext/io/type.RawFd.html' title='std::sys::ext::io::RawFd'>RawFd</a>, termios: &amp;mut <a class='struct' href='../termios/struct.Termios.html' title='termios::Termios'>Termios</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/std/io/error/type.Result.html' title='std::io::error::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</pre><div class='docblock'><p>Populates a <code>Termios</code> structure with parameters associated with a terminal.</p>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>termios</a>::<wbr><a class="fn" href=''>tcgetattr</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/termios/lib.rs.html#439-441' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn tcgetattr(fd: <a class="type" href="https://doc.rust-lang.org/nightly/std/sys/imp/ext/io/type.RawFd.html" title="type std::sys::imp::ext::io::RawFd">RawFd</a>, termios: &amp;mut <a class="struct" href="../termios/struct.Termios.html" title="struct termios::Termios">Termios</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</pre><div class='docblock'><p>Populates a <code>Termios</code> structure with parameters associated with a terminal.</p>
 
 <p>Upon successful completion, the <code>Termios</code> structure referred to by the <code>termios</code> parameter will
 contain the parameters associated with the terminal device referred to by <code>fd</code>.</p>
@@ -80,6 +83,8 @@ terminal device&#39;s parameters.</li>
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 
@@ -100,7 +105,7 @@ terminal device&#39;s parameters.</li>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -111,11 +116,8 @@ terminal device&#39;s parameters.</li>
     <script>
         window.rootPath = "../";
         window.currentCrate = "termios";
-        window.playgroundUrl = "";
     </script>
-    <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

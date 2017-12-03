@@ -9,12 +9,15 @@
 
     <title>ffi.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
+    
 
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -40,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -60,30 +63,26 @@
 <span id="18">18</span>
 <span id="19">19</span>
 <span id="20">20</span>
-<span id="21">21</span>
-<span id="22">22</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Unsafe FFI bindings.</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! Unsafe FFI bindings.</span>
 
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
+<span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_int</span>,<span class="ident">pid_t</span>};
 
-<span class='kw'>use</span> <span class='ident'>libc</span>::{<span class='ident'>c_int</span>,<span class='ident'>pid_t</span>};
-
-<span class='attribute'>#[<span class='ident'>link</span>(<span class='ident'>name</span> <span class='op'>=</span> <span class='string'>&quot;c&quot;</span>)]</span>
-<span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>tcgetattr</span>(<span class='ident'>fd</span>: <span class='ident'>c_int</span>, <span class='ident'>termios_p</span>: <span class='op'>*</span><span class='kw-2'>mut</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::<span class='ident'>termios</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>tcsetattr</span>(<span class='ident'>fd</span>: <span class='ident'>c_int</span>, <span class='ident'>optional_actions</span>: <span class='ident'>c_int</span>, <span class='ident'>termios_p</span>: <span class='op'>*</span><span class='kw'>const</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::<span class='ident'>termios</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>tcsendbreak</span>(<span class='ident'>fd</span>: <span class='ident'>c_int</span>, <span class='ident'>duration</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>tcdrain</span>(<span class='ident'>fd</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>tcflush</span>(<span class='ident'>fd</span>: <span class='ident'>c_int</span>, <span class='ident'>queue_selector</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>tcflow</span>(<span class='ident'>fd</span>: <span class='ident'>c_int</span>, <span class='ident'>action</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cfmakeraw</span>(<span class='ident'>termios_p</span>: <span class='op'>*</span><span class='kw-2'>mut</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::<span class='ident'>termios</span>);
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cfgetispeed</span>(<span class='ident'>termios_p</span>: <span class='op'>*</span><span class='kw'>const</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::<span class='ident'>termios</span>) <span class='op'>-&gt;</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::<span class='ident'>speed_t</span>;
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cfgetospeed</span>(<span class='ident'>termios_p</span>: <span class='op'>*</span><span class='kw'>const</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::<span class='ident'>termios</span>) <span class='op'>-&gt;</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::<span class='ident'>speed_t</span>;
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cfsetispeed</span>(<span class='ident'>termios_p</span>: <span class='op'>*</span><span class='kw-2'>mut</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::<span class='ident'>termios</span>, <span class='ident'>speed</span>: ::<span class='ident'>os</span>::<span class='ident'>target</span>::<span class='ident'>speed_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cfsetospeed</span>(<span class='ident'>termios_p</span>: <span class='op'>*</span><span class='kw-2'>mut</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::<span class='ident'>termios</span>, <span class='ident'>speed</span>: ::<span class='ident'>os</span>::<span class='ident'>target</span>::<span class='ident'>speed_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cfsetspeed</span>(<span class='ident'>termios_p</span>: <span class='op'>*</span><span class='kw-2'>mut</span> ::<span class='ident'>os</span>::<span class='ident'>target</span>::<span class='ident'>termios</span>, <span class='ident'>speed</span>: ::<span class='ident'>os</span>::<span class='ident'>target</span>::<span class='ident'>speed_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>tcgetsid</span>(<span class='ident'>fd</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>pid_t</span>;
+<span class="attribute">#[<span class="ident">link</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;c&quot;</span>)]</span>
+<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tcgetattr</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>, <span class="ident">termios_p</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> ::<span class="ident">os</span>::<span class="ident">target</span>::<span class="ident">termios</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tcsetattr</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>, <span class="ident">optional_actions</span>: <span class="ident">c_int</span>, <span class="ident">termios_p</span>: <span class="kw-2">*</span><span class="kw">const</span> ::<span class="ident">os</span>::<span class="ident">target</span>::<span class="ident">termios</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tcsendbreak</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>, <span class="ident">duration</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tcdrain</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tcflush</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>, <span class="ident">queue_selector</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tcflow</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>, <span class="ident">action</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cfmakeraw</span>(<span class="ident">termios_p</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> ::<span class="ident">os</span>::<span class="ident">target</span>::<span class="ident">termios</span>);
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cfgetispeed</span>(<span class="ident">termios_p</span>: <span class="kw-2">*</span><span class="kw">const</span> ::<span class="ident">os</span>::<span class="ident">target</span>::<span class="ident">termios</span>) <span class="op">-&gt;</span> ::<span class="ident">os</span>::<span class="ident">target</span>::<span class="ident">speed_t</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cfgetospeed</span>(<span class="ident">termios_p</span>: <span class="kw-2">*</span><span class="kw">const</span> ::<span class="ident">os</span>::<span class="ident">target</span>::<span class="ident">termios</span>) <span class="op">-&gt;</span> ::<span class="ident">os</span>::<span class="ident">target</span>::<span class="ident">speed_t</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cfsetispeed</span>(<span class="ident">termios_p</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> ::<span class="ident">os</span>::<span class="ident">target</span>::<span class="ident">termios</span>, <span class="ident">speed</span>: ::<span class="ident">os</span>::<span class="ident">target</span>::<span class="ident">speed_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cfsetospeed</span>(<span class="ident">termios_p</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> ::<span class="ident">os</span>::<span class="ident">target</span>::<span class="ident">termios</span>, <span class="ident">speed</span>: ::<span class="ident">os</span>::<span class="ident">target</span>::<span class="ident">speed_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cfsetspeed</span>(<span class="ident">termios_p</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> ::<span class="ident">os</span>::<span class="ident">target</span>::<span class="ident">termios</span>, <span class="ident">speed</span>: ::<span class="ident">os</span>::<span class="ident">target</span>::<span class="ident">speed_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tcgetsid</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">pid_t</span>;
 }
 </pre>
 </section>
@@ -109,6 +108,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 
@@ -129,7 +130,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -140,11 +141,8 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "termios";
-        window.playgroundUrl = "";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
-    <script async src="../../search-index.js"></script>
+    <script defer src="../../search-index.js"></script>
 </body>
 </html>
