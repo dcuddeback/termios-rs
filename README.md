@@ -13,6 +13,7 @@ termios API. This should be available on any Unix operating system. This library
 termios definitions for the following platforms:
 
 * Linux (x86_64, armv6l)
+* Android (x86)
 * OS X (x86_64)
 * FreeBSD (amd64)
 * OpenBSD (amd64)
