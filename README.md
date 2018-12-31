@@ -17,6 +17,7 @@ termios definitions for the following platforms:
 * OS X (x86_64)
 * FreeBSD (amd64)
 * OpenBSD (amd64)
+* NetBSD (amd64)
 * DragonFly BSD (x86_64)
 
 ## Usage
