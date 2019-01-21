@@ -18,6 +18,7 @@ termios definitions for the following platforms:
 * FreeBSD (amd64)
 * OpenBSD (amd64)
 * DragonFly BSD (x86_64)
+* illumos (x86_64)
 
 ## Usage
 Add `termios` as a dependency in `Cargo.toml`:
