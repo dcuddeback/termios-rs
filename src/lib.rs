@@ -104,6 +104,11 @@
 //!     cfsetspeed(termios, termios::os::dragonfly::B230400)
 //! }
 //!
+//! #[cfg(target_os = "haiku")]
+//! fn set_fastest_speed(termios: &mut Termios) -> io::Result<()> {
+//!     cfsetspeed(termios, termios::os::haiku::B230400)
+//! }
+//!
 //! # let fd = 1;
 //! let mut termios = Termios::from_fd(fd).unwrap();
 //! set_fastest_speed(&mut termios).unwrap();
