@@ -16,7 +16,7 @@ extern "C" {
     pub fn cfgetospeed(termios_p: *const ::os::target::termios) -> ::os::target::speed_t;
     pub fn cfsetispeed(termios_p: *mut ::os::target::termios, speed: ::os::target::speed_t) -> c_int;
     pub fn cfsetospeed(termios_p: *mut ::os::target::termios, speed: ::os::target::speed_t) -> c_int;
-    #[cfg(not(target_os = "solaris"))]
+    #[cfg(all(not(target_os = "solaris"), not(target_os = "haiku")))]
     pub fn cfsetspeed(termios_p: *mut ::os::target::termios, speed: ::os::target::speed_t) -> c_int;
     pub fn tcgetsid(fd: c_int) -> pid_t;
 }
@@ -38,7 +38,7 @@ pub unsafe extern "C" fn cfmakeraw(termios: *mut ::os::target::termios) {
     (*termios).c_cc[VTIME] = 0;
 }
 
-#[cfg(target_os = "solaris")]
+#[cfg(any(target_os = "solaris", target_os = "haiku"))]
 #[no_mangle]
 pub unsafe extern "C" fn cfsetspeed(termios_p: *mut ::os::target::termios, speed: ::os::target::speed_t) -> c_int {
     match cfsetispeed(termios_p, speed) {

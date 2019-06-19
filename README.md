@@ -30,6 +30,7 @@ termios definitions for the following platforms:
 * NetBSD (amd64)
 * DragonFly BSD (x86_64)
 * illumos (x86_64)
+* Haiku (x86_64)
 
 If you're interested in a platform that's not listed here, please see
 [`CONTRIBUTING.md`](CONTRIBUTING.md) to see how you can help.
