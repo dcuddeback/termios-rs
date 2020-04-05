@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.3.2 (2020-04-05)
+### Added
+* ([#22](https://github.com/dcuddeback/termios-rs/pull/22))
+  Added support for NetBSD.
+* ([#21](https://github.com/dcuddeback/termios-rs/pull/21))
+  Added support for illumos.
+
 ## 0.3.1 (2018-10-08)
 ### Added
 * ([#19](https://github.com/dcuddeback/termios-rs/pull/19))
