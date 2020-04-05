@@ -103,6 +103,7 @@
 //! fn set_fastest_speed(termios: &mut Termios) -> io::Result<()> {
 //!     cfsetspeed(termios, termios::os::netbsd::B921600)
 //! }
+//!
 //! #[cfg(target_os = "dragonfly")]
 //! fn set_fastest_speed(termios: &mut Termios) -> io::Result<()> {
 //!     cfsetspeed(termios, termios::os::dragonfly::B230400)
