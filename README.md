@@ -7,7 +7,17 @@ converts integer return values to `std::io::Result` to indicate success or failu
 
 * [Documentation](http://dcuddeback.github.io/termios-rs/termios/)
 
-## Dependencies
+## Project Status
+
+This is a very low-maintenance project. The termios API is decades old. This isn't an area that you
+should expect to see daily commits, so don't be put off if you don't see commits for several years.
+This just means that the project is stable. That's a good thing. :)
+
+If, however, you see old patches that you'd like to see land, please see
+[`CONTRIBUTING.md`](CONTRIBUTING.md) to see how you can help.
+
+## Dependencies & Compatibility
+
 In order to use the `termios` crate, you must have a native `libc` library that implements the
 termios API. This should be available on any Unix operating system. This library contains the
 termios definitions for the following platforms:
@@ -21,7 +31,11 @@ termios definitions for the following platforms:
 * DragonFly BSD (x86_64)
 * illumos (x86_64)
 
+If you're interested in a platform that's not listed here, please see
+[`CONTRIBUTING.md`](CONTRIBUTING.md) to see how you can help.
+
 ## Usage
+
 Add `termios` as a dependency in `Cargo.toml`:
 
 ```toml
@@ -63,6 +77,7 @@ fn setup_fd(fd: RawFd) -> io::Result<()> {
 * [qbit](https://github.com/qbit)
 
 ## License
+
 Copyright © 2015 David Cuddeback
 
 Distributed under the [MIT License](LICENSE).
