@@ -26,14 +26,16 @@ extern "C" {
 pub unsafe extern "C" fn cfmakeraw(termios: *mut ::os::target::termios) {
     use ::os::target::{IMAXBEL, IGNBRK, BRKINT, PARMRK, ISTRIP, INLCR, IGNCR, ICRNL, IXON};
     use ::os::target::{OPOST, ECHO, ECHONL, ICANON, ISIG, IEXTEN, CSIZE, PARENB, CS8};
+    use ::os::target::{VMIN, VTIME};
 
-    let mut t = *termios;
-
-    t.c_iflag &= !(IMAXBEL|IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL|IXON);
-    t.c_oflag &= !OPOST;
-    t.c_lflag &= !(ECHO|ECHONL|ICANON|ISIG|IEXTEN);
-    t.c_cflag &= !(CSIZE|PARENB);
-    t.c_cflag |= CS8;
+    // Equivalent of cfmakeraw() in glibc
+    (*termios).c_iflag &= !(IMAXBEL | IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
+    (*termios).c_oflag &= !OPOST;
+    (*termios).c_lflag &= !(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
+    (*termios).c_cflag &= !(CSIZE | PARENB);
+    (*termios).c_cflag |= CS8;
+    (*termios).c_cc[VMIN] = 1;
+    (*termios).c_cc[VTIME] = 0;
 }
 
 #[cfg(target_os = "solaris")]
