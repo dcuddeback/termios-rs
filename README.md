@@ -25,6 +25,7 @@ termios definitions for the following platforms:
 * Linux (x86_64, armv6l)
 * Android (x86)
 * OS X (x86_64)
+* iOS (armv7, arm64)
 * FreeBSD (amd64)
 * OpenBSD (amd64)
 * NetBSD (amd64)
