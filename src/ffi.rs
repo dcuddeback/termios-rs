@@ -10,18 +10,18 @@ extern "C" {
     pub fn tcdrain(fd: c_int) -> c_int;
     pub fn tcflush(fd: c_int, queue_selector: c_int) -> c_int;
     pub fn tcflow(fd: c_int, action: c_int) -> c_int;
-    #[cfg(not(target_os = "solaris"))]
+    #[cfg(not(any(target_os = "solaris", target_os = "illumos")))]
     pub fn cfmakeraw(termios_p: *mut ::os::target::termios);
     pub fn cfgetispeed(termios_p: *const ::os::target::termios) -> ::os::target::speed_t;
     pub fn cfgetospeed(termios_p: *const ::os::target::termios) -> ::os::target::speed_t;
     pub fn cfsetispeed(termios_p: *mut ::os::target::termios, speed: ::os::target::speed_t) -> c_int;
     pub fn cfsetospeed(termios_p: *mut ::os::target::termios, speed: ::os::target::speed_t) -> c_int;
-    #[cfg(not(target_os = "solaris"))]
+    #[cfg(not(any(target_os = "solaris", target_os = "illumos")))]
     pub fn cfsetspeed(termios_p: *mut ::os::target::termios, speed: ::os::target::speed_t) -> c_int;
     pub fn tcgetsid(fd: c_int) -> pid_t;
 }
 
-#[cfg(target_os = "solaris")]
+#[cfg(any(target_os = "solaris", target_os = "illumos"))]
 #[no_mangle]
 pub unsafe extern "C" fn cfmakeraw(termios: *mut ::os::target::termios) {
     use ::os::target::{IMAXBEL, IGNBRK, BRKINT, PARMRK, ISTRIP, INLCR, IGNCR, ICRNL, IXON};
@@ -38,7 +38,7 @@ pub unsafe extern "C" fn cfmakeraw(termios: *mut ::os::target::termios) {
     (*termios).c_cc[VTIME] = 0;
 }
 
-#[cfg(target_os = "solaris")]
+#[cfg(any(target_os = "solaris", target_os = "illumos"))]
 #[no_mangle]
 pub unsafe extern "C" fn cfsetspeed(termios_p: *mut ::os::target::termios, speed: ::os::target::speed_t) -> c_int {
     match cfsetispeed(termios_p, speed) {

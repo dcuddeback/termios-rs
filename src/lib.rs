@@ -114,6 +114,11 @@
 //!     cfsetspeed(termios, termios::os::solaris::B921600)
 //! }
 //!
+//! #[cfg(target_os = "illumos")]
+//! fn set_fastest_speed(termios: &mut Termios) -> io::Result<()> {
+//!     cfsetspeed(termios, termios::os::illumos::B921600)
+//! }
+//!
 //! # let fd = 1;
 //! let mut termios = Termios::from_fd(fd).unwrap();
 //! set_fastest_speed(&mut termios).unwrap();
