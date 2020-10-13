@@ -127,7 +127,7 @@
 extern crate libc;
 
 use std::io;
-use std::mem;
+use std::mem::MaybeUninit;
 use std::ops::{Deref,DerefMut};
 use std::os::unix::io::RawFd;
 
@@ -192,10 +192,12 @@ impl Termios {
     ///
     /// `fd` must be an open file descriptor for a terminal device.
     pub fn from_fd(fd: RawFd) -> io::Result<Self> {
-        let mut termios = unsafe { mem::uninitialized() };
+        let mut termios = MaybeUninit::uninit();
 
-        match tcgetattr(fd, &mut termios) {
-            Ok(_) => Ok(termios),
+        // We can’t use tcgetattr() here because Termios can only be safely initialised with a
+        // valid ::os::target::termios.
+        match io_result(unsafe { ffi::tcgetattr(fd, termios.as_mut_ptr()) }) {
+            Ok(()) => Ok(Termios { inner: unsafe { termios.assume_init() } }),
             Err(err) => Err(err)
         }
     }
@@ -229,9 +231,9 @@ impl DerefMut for Termios {
 /// # Examples
 ///
 /// ```
-/// # use std::mem;
+/// # use std::mem::MaybeUninit;
 /// # use termios::{Termios,B9600,cfsetispeed,cfgetispeed};
-/// # let mut termios = unsafe { mem::uninitialized() };
+/// # let mut termios = unsafe { MaybeUninit::uninit().assume_init() };
 /// cfsetispeed(&mut termios, B9600).unwrap();
 /// assert_eq!(cfgetispeed(&termios), B9600);
 /// ```
@@ -244,9 +246,9 @@ pub fn cfgetispeed(termios: &Termios) -> speed_t {
 /// # Examples
 ///
 /// ```
-/// # use std::mem;
+/// # use std::mem::MaybeUninit;
 /// # use termios::{Termios,B9600,cfsetospeed,cfgetospeed};
-/// # let mut termios = unsafe { mem::uninitialized() };
+/// # let mut termios = unsafe { MaybeUninit::uninit().assume_init() };
 /// cfsetospeed(&mut termios, B9600).unwrap();
 /// assert_eq!(cfgetospeed(&termios), B9600);
 /// ```
@@ -286,9 +288,9 @@ pub fn cfgetospeed(termios: &Termios) -> speed_t {
 /// # Examples
 ///
 /// ```
-/// # use std::mem;
+/// # use std::mem::MaybeUninit;
 /// # use termios::{Termios,B9600,cfsetispeed,cfgetispeed};
-/// # let mut termios = unsafe { mem::uninitialized() };
+/// # let mut termios = unsafe { MaybeUninit::uninit().assume_init() };
 /// cfsetispeed(&mut termios, B9600).unwrap();
 /// assert_eq!(cfgetispeed(&termios), B9600);
 /// ```
@@ -329,9 +331,9 @@ pub fn cfsetispeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
 /// # Examples
 ///
 /// ```
-/// # use std::mem;
+/// # use std::mem::MaybeUninit;
 /// # use termios::{Termios,B9600,cfsetospeed,cfgetospeed};
-/// # let mut termios = unsafe { mem::uninitialized() };
+/// # let mut termios = unsafe { MaybeUninit::uninit().assume_init() };
 /// cfsetospeed(&mut termios, B9600).unwrap();
 /// assert_eq!(cfgetospeed(&termios), B9600);
 /// ```
@@ -369,9 +371,9 @@ pub fn cfsetospeed(termios: &mut Termios, speed: speed_t) -> io::Result<()> {
 /// # Examples
 ///
 /// ```
-/// # use std::mem;
+/// # use std::mem::MaybeUninit;
 /// # use termios::{Termios,B9600,cfsetspeed,cfgetispeed,cfgetospeed};
-/// # let mut termios = unsafe { mem::uninitialized() };
+/// # let mut termios = unsafe { MaybeUninit::uninit().assume_init() };
 /// cfsetspeed(&mut termios, B9600).unwrap();
 /// assert_eq!(cfgetispeed(&termios), B9600);
 /// assert_eq!(cfgetospeed(&termios), B9600);
