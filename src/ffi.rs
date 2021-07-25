@@ -2,7 +2,6 @@
 
 use libc::{c_int,pid_t};
 
-#[link(name = "c")]
 extern "C" {
     pub fn tcgetattr(fd: c_int, termios_p: *mut ::os::target::termios) -> c_int;
     pub fn tcsetattr(fd: c_int, optional_actions: c_int, termios_p: *const ::os::target::termios) -> c_int;
