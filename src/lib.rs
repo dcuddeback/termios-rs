@@ -84,9 +84,9 @@
 //!     cfsetspeed(termios, termios::os::linux::B4000000)
 //! }
 //!
-//! #[cfg(target_os = "macos")]
+//! #[cfg(any(target_os = "macos", target_os = "ios"))]
 //! fn set_fastest_speed(termios: &mut Termios) -> io::Result<()> {
-//!     cfsetspeed(termios, termios::os::macos::B230400)
+//!     cfsetspeed(termios, termios::os::darwin::B230400)
 //! }
 //!
 //! #[cfg(target_os = "freebsd")]
