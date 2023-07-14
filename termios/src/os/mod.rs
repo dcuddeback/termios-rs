@@ -1,5 +1,7 @@
 //! OS-specific definitions.
 
+mod common;
+
 #[cfg(target_os = "linux")] pub use self::linux as target;
 #[cfg(target_os = "android")] pub use self::android as target;
 #[cfg(target_os = "macos")] pub use self::macos as target;
@@ -19,3 +21,23 @@
 #[cfg(target_os = "dragonfly")] pub mod dragonfly;
 #[cfg(target_os = "solaris")] pub mod solaris;
 #[cfg(target_os = "illumos")] pub mod illumos;
+
+#[cfg(not(any(target_os = "android",
+              target_os = "dragonfly",
+              target_os = "freebsd",
+              target_os = "illumos",
+              target_os = "linux",
+              target_os = "macos",
+              target_os = "openbsd",
+              target_os = "solaris")))]
+pub mod unknown;
+
+#[cfg(not(any(target_os = "android",
+              target_os = "dragonfly",
+              target_os = "freebsd",
+              target_os = "illumos",
+              target_os = "linux",
+              target_os = "macos",
+              target_os = "openbsd",
+              target_os = "solaris")))]
+pub use self::unknown as target;
