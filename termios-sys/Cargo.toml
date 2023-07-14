@@ -1,0 +1,12 @@
+[package]
+name = "termios-sys"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "FFI bindings to termios"
+repository = "https://github.com/dcuddeback/termios-rs"
+keywords = [ "ffi", "termios" ]
+categories = [ "external-ffi-bindings", "os" ]
+
+[build-dependencies]
+bindgen = "0.66.1"

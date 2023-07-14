@@ -1,2 +1,4 @@
-/target
-/Cargo.lock
+/termios/target
+/termios/Cargo.lock
+/termios-sys/target
+/termios-sys/Cargo.lock

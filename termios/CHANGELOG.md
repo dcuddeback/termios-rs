@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.3.4 (2023-07-14)
+### Changed
+* Added support for any POSIX platform, without needing to to handcraft bindings.
+
 ## 0.3.2 (2020-04-05)
 ### Added
 * ([#22](https://github.com/dcuddeback/termios-rs/pull/22))
