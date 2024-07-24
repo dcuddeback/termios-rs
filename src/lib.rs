@@ -119,6 +119,11 @@
 //!     cfsetspeed(termios, termios::os::illumos::B921600)
 //! }
 //!
+//! #[cfg(target_os = "aix")]
+//! fn set_fastest_speed(termios: &mut Termios) -> io::Result<()> {
+//!     cfsetspeed(termios, termios::os::aix::B38400)
+//! }
+//!
 //! # let fd = 1;
 //! let mut termios = Termios::from_fd(fd).unwrap();
 //! set_fastest_speed(&mut termios).unwrap();
