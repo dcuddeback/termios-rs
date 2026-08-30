@@ -119,6 +119,11 @@
 //!     cfsetspeed(termios, termios::os::illumos::B921600)
 //! }
 //!
+//! #[cfg(target_os = "hurd")]
+//! fn set_fastest_speed(termios: &mut Termios) -> io::Result<()> {
+//!     cfsetspeed(termios, termios::os::hurd::B921600)
+//! }
+//!
 //! # let fd = 1;
 //! let mut termios = Termios::from_fd(fd).unwrap();
 //! set_fastest_speed(&mut termios).unwrap();
